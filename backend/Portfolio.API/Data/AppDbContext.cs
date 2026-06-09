@@ -14,6 +14,7 @@ public class AppDbContext : DbContext
     public DbSet<Project> Projects { get; set; }
     public DbSet<ContactMessage> ContactMessages { get; set; }
     public DbSet<MagicLinkToken> MagicLinkTokens { get; set; }
+    public DbSet<SocialLink> SocialLinks { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
