@@ -13,6 +13,7 @@ public class AppDbContext : DbContext
     public DbSet<Skill> Skills { get; set; }
     public DbSet<Project> Projects { get; set; }
     public DbSet<ContactMessage> ContactMessages { get; set; }
+    public DbSet<MagicLinkToken> MagicLinkTokens { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
