@@ -11,4 +11,6 @@ public class AppDbContext : DbContext
     }
 
     public DbSet<Profile> Profiles { get; set; }
+    public DbSet<Skill> Skills { get; set; }
+    public DbSet<Project> Projects { get; set; }
 }
