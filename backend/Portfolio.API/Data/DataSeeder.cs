@@ -6,7 +6,7 @@ public static class DataSeeder
 {
     public static void Seed(AppDbContext context)
     {
-        if (!context.Profiles.Any())
+        if (context.Profiles.Count() == 0)
         {
             context.Profiles.Add(new Profile
             {
@@ -18,7 +18,7 @@ public static class DataSeeder
             });
         }
 
-        if (!context.SocialLinks.Any())
+        if (context.SocialLinks.Count() == 0)
         {
             context.SocialLinks.AddRange(
                 new SocialLink { Platform = "GitHub", Url = "https://github.com/GilsonSouzaDev", DisplayOrder = 1 },
