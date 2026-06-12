@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Portfolio.API.Data;
 using Portfolio.API.Models;
 using Portfolio.API.Services.Email;
@@ -41,5 +42,22 @@ public class AuthController : ControllerBase
             return StatusCode(500, new { message = "Falha ao enviar o código. Tente novamente." });
 
         return Ok(new { message = "Código enviado para o e-mail cadastrado." });
+    }
+
+    [HttpGet("verify")]
+    public async Task<IActionResult> Verify([FromQuery] string token)
+    {
+        var magicToken = await _context.MagicLinkTokens
+            .Where(t => t.Token == token && !t.IsUsed && t.ExpiresAt > DateTime.UtcNow)
+            .FirstOrDefaultAsync();
+
+        if (magicToken == null)
+            return Unauthorized(new { message = "Código inválido ou expirado." });
+
+        magicToken.IsUsed = true;
+        await _context.SaveChangesAsync();
+
+        var sessionToken = Guid.NewGuid().ToString("N");
+        return Ok(new { sessionToken, message = "Autenticado com sucesso." });
     }
 }
