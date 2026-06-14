@@ -60,4 +60,12 @@ public class AuthController : ControllerBase
         var sessionToken = Guid.NewGuid().ToString("N");
         return Ok(new { sessionToken, message = "Autenticado com sucesso." });
     }
+
+    [HttpPost("logout")]
+    public IActionResult Logout()
+    {
+        return Ok(new { message = "Logout realizado com sucesso." });
+    }
+
+
 }
