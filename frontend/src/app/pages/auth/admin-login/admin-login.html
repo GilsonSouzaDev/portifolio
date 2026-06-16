@@ -1,1 +1,22 @@
-<p>admin-login works!</p>
+<div class="login-container">
+  <div class="login-card">
+    <h1>Acesso Administrativo</h1>
+    <p>Clique no botão abaixo para receber o código de acesso no seu e-mail.</p>
+
+    @if (error) {
+      <div class="error-message">{{ error }}</div>
+    }
+
+    @if (sent) {
+      <div class="success-message">Código enviado! Redirecionando...</div>
+    }
+
+    <button (click)="requestCode()" [disabled]="loading || sent">
+      @if (loading) {
+        Enviando...
+      } @else {
+        Enviar código
+      }
+    </button>
+  </div>
+</div>
