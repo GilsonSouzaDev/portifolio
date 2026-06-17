@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { Auth } from '../../../core/services/auth';
 
 @Component({
   selector: 'app-admin-login',
@@ -16,7 +16,7 @@ export class AdminLogin {
   error = '';
 
   constructor(
-    private http: HttpClient,
+    private auth: Auth,
     private router: Router,
   ) {}
 
@@ -24,7 +24,7 @@ export class AdminLogin {
     this.loading = true;
     this.error = '';
 
-    this.http.post('http://localhost:5217/api/auth/request-link', {}).subscribe({
+    this.auth.requestCode().subscribe({
       next: () => {
         this.loading = false;
         this.sent = true;

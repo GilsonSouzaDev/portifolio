@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Auth } from '../../../core/services/auth';
 
 @Component({
   selector: 'app-admin-verify',
@@ -17,7 +17,7 @@ export class AdminVerify {
   error = '';
 
   constructor(
-    private http: HttpClient,
+    private auth: Auth,
     private router: Router,
   ) {}
 
@@ -30,18 +30,15 @@ export class AdminVerify {
     this.loading = true;
     this.error = '';
 
-    this.http
-      .get<{ sessionToken: string }>(`http://localhost:5217/api/auth/verify?token=${this.code}`)
-      .subscribe({
-        next: (response) => {
-          localStorage.setItem('sessionToken', response.sessionToken);
-          this.loading = false;
-          this.router.navigate(['/admin']);
-        },
-        error: () => {
-          this.loading = false;
-          this.error = 'Código inválido ou expirado. Tente novamente.';
-        },
-      });
+    this.auth.verifyCode(this.code).subscribe({
+      next: () => {
+        this.loading = false;
+        this.router.navigate(['/admin']);
+      },
+      error: () => {
+        this.loading = false;
+        this.error = 'Código inválido ou expirado. Tente novamente.';
+      },
+    });
   }
 }
