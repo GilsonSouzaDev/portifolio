@@ -21,6 +21,16 @@ builder.Services.AddSingleton<IEmailService>(provider => new FallbackEmailServic
     provider.GetRequiredService<ILogger<FallbackEmailService>>()
 ));
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy.WithOrigins("http://localhost:4200")
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
+
 builder.Services.AddOpenApi();
 builder.Services.AddControllers();
 
@@ -37,6 +47,7 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+app.UseCors("AllowFrontend");
 app.UseStaticFiles();
 app.UseHttpsRedirection();
 app.MapControllers();
