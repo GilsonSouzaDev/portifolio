@@ -1,0 +1,9 @@
+@if (isAuthenticated) {
+  <button class="fab" [class.active]="isEditMode" (click)="toggle()">
+    @if (isEditMode) {
+      ✓
+    } @else {
+      ⚙️
+    }
+  </button>
+}
