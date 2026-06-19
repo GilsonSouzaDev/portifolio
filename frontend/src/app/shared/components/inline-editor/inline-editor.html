@@ -1,0 +1,27 @@
+@if (editing) {
+  @if (multiline) {
+    <textarea
+      [(ngModel)]="draft"
+      (blur)="save()"
+      (keyup.escape)="cancel()"
+      placeholder="Digite o texto..."
+      autofocus
+    ></textarea>
+  } @else {
+    <input
+      type="text"
+      [(ngModel)]="draft"
+      (blur)="save()"
+      (keyup.enter)="save()"
+      (keyup.escape)="cancel()"
+      placeholder="Digite o texto..."
+      autofocus
+    />
+  }
+} @else {
+  <span
+    class="editable-text"
+    [class.edit-mode]="isEditMode"
+    (click)="startEditing()"
+  >{{ value }}</span>
+}
