@@ -5,24 +5,23 @@
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  background: var(--color-bg-card);
-  border: 2px solid var(--color-primary);
+  background: var(--color-primary-gradient);
+  border: none;
   color: var(--color-text);
   font-size: var(--font-size-lg);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 4px 16px rgba(232, 99, 10, 0.4);
   transition: all 0.2s ease;
   z-index: 1000;
 
   &:hover {
-    transform: scale(1.1);
+    transform: scale(1.08);
   }
 
   &.active {
     background: var(--color-success);
-    border-color: var(--color-success);
   }
 }

@@ -6,35 +6,40 @@
 }
 
 .preview {
-  width: 150px;
-  height: 150px;
+  width: 180px;
+  height: 180px;
   object-fit: cover;
-  border-radius: var(--border-radius-md);
-  border: 2px solid var(--color-bg-surface);
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  border: 3px solid var(--color-primary);
+  padding: 4px;
+  background: var(--color-bg-card);
 }
 
 .placeholder {
-  width: 150px;
-  height: 150px;
+  width: 180px;
+  height: 180px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--color-bg-surface);
-  border-radius: var(--border-radius-md);
+  background: var(--color-bg-card);
+  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+  border: 3px solid var(--color-border);
   color: var(--color-text-subtle);
   font-size: var(--font-size-sm);
+  text-align: center;
 }
 
 .upload-button {
-  background: var(--color-primary);
+  background: var(--color-bg-input);
   color: var(--color-text);
+  border: 1px solid var(--color-primary);
   padding: var(--spacing-xs) var(--spacing-md);
   border-radius: var(--border-radius-sm);
   cursor: pointer;
   font-size: var(--font-size-sm);
 
   &:hover {
-    background: var(--color-primary-hover);
+    background: rgba(232, 99, 10, 0.1);
   }
 }
 
