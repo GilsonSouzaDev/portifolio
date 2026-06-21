@@ -1,5 +1,6 @@
 .editable-text {
   display: inline-block;
+  font-family: inherit;
 
   &.edit-mode {
     cursor: pointer;
@@ -10,7 +11,7 @@
 
     &:hover {
       border-color: var(--color-primary);
-      background: rgba(230, 57, 70, 0.1);
+      background: rgba(232, 99, 10, 0.08);
     }
   }
 }
@@ -18,13 +19,13 @@
 input,
 textarea {
   width: 100%;
-  background: var(--color-bg-surface);
+  background: var(--color-bg-input);
   border: 1px solid var(--color-primary);
   border-radius: var(--border-radius-sm);
   color: var(--color-text);
   font-family: inherit;
   font-size: inherit;
-  padding: var(--spacing-xs);
+  padding: var(--spacing-xs) var(--spacing-sm);
 
   &:focus {
     outline: none;
