@@ -1,47 +1,51 @@
+@use 'scss/breakpoints' as *;
+
 :root {
-  // Cores principais — paleta do design real
   --color-primary: #E8630A;
   --color-primary-light: #FF8C42;
-  --color-primary-gradient: linear-gradient(135deg, #FF8C42 0%, #E8630A 50%, #E63950 100%);
+  --color-primary-gradient: linear-gradient(135deg, #FF8C42 0%, #E8630A 55%, #E63950 100%);
 
-  // Backgrounds
-  --color-bg: #0D0D1A;
-  --color-bg-secondary: #1A1A2E;
-  --color-bg-card: #1E1E30;
-  --color-bg-input: #16161F;
+  --color-bg: #111111;
+  --color-bg-secondary: #1A1A1A;
+  --color-bg-card: #1C1C1C;
+  --color-bg-surface: #252525;
+  --color-bg-input: #141414;
+  --color-bg-placeholder: #2A2A2A;
 
-  // Textos
   --color-text: #FFFFFF;
-  --color-text-muted: #A8A8B8;
-  --color-text-subtle: #6E6E80;
+  --color-text-muted: #B0B0B0;
+  --color-text-subtle: #7A7A7A;
 
-  // Feedback
   --color-success: #2dc653;
   --color-error: #E63950;
   --color-warning: #f4a261;
 
-  // Bordas
-  --color-border: #2A2A3D;
+  --color-border: #333333;
   --border-radius-sm: 6px;
   --border-radius-md: 12px;
-  --border-radius-lg: 20px;
+  --border-radius-lg: 16px;
+  --border-radius-nav: 4px;
 
-  // Espaçamentos
   --spacing-xs: 0.25rem;
   --spacing-sm: 0.5rem;
   --spacing-md: 1rem;
-  --spacing-lg: 2rem;
-  --spacing-xl: 4rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2.5rem;
+  --spacing-section: 1.75rem;
+  --spacing-block: 0.75rem;
 
-  // Tipografia
   --font-heading: 'Syne', sans-serif;
   --font-body: 'DM Sans', sans-serif;
 
+  --font-size-xs: 0.75rem;
   --font-size-sm: 0.875rem;
   --font-size-md: 1rem;
-  --font-size-lg: 1.25rem;
-  --font-size-xl: 1.75rem;
-  --font-size-2xl: 2.5rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.5rem;
+  --font-size-2xl: 1.75rem;
+  --font-size-hero: 2.125rem;
+
+  --max-width: 1100px;
 }
 
 * {
@@ -50,12 +54,18 @@
   box-sizing: border-box;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   background: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-body);
   font-weight: 400;
   font-size: var(--font-size-md);
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
 }
 
 h1,
@@ -66,4 +76,13 @@ h5,
 h6 {
   font-family: var(--font-heading);
   font-weight: 700;
+}
+
+a {
+  color: inherit;
+}
+
+img {
+  display: block;
+  max-width: 100%;
 }

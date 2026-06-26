@@ -5,28 +5,24 @@
   gap: var(--spacing-sm);
 }
 
-.preview {
-  width: 180px;
-  height: 180px;
-  object-fit: cover;
+.preview,
+.placeholder {
+  width: 190px;
+  height: 190px;
   clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
   border: 3px solid var(--color-primary);
   padding: 4px;
-  background: var(--color-bg-card);
+  background: var(--color-bg-placeholder);
+  filter: drop-shadow(0 6px 20px rgba(0, 0, 0, 0.45));
+}
+
+.preview {
+  object-fit: cover;
 }
 
 .placeholder {
-  width: 180px;
-  height: 180px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--color-bg-card);
-  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
-  border: 3px solid var(--color-border);
-  color: var(--color-text-subtle);
-  font-size: var(--font-size-sm);
-  text-align: center;
+  display: block;
+  flex-shrink: 0;
 }
 
 .upload-button {
@@ -37,6 +33,7 @@
   border-radius: var(--border-radius-sm);
   cursor: pointer;
   font-size: var(--font-size-sm);
+  font-family: var(--font-body);
 
   &:hover {
     background: rgba(232, 99, 10, 0.1);
@@ -46,4 +43,13 @@
 .error-message {
   color: var(--color-error);
   font-size: var(--font-size-sm);
+}
+
+@media (max-width: 768px) {
+
+  .preview,
+  .placeholder {
+    width: 170px;
+    height: 170px;
+  }
 }

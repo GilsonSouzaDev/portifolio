@@ -1,17 +1,13 @@
 <div class="image-uploader">
   @if (imageUrl) {
-    <img [src]="imageUrl" alt="Imagem" class="preview" />
+    <img [src]="imageUrl" alt="Avatar" class="preview" />
   } @else {
-    <div class="placeholder">Sem imagem</div>
+    <div class="placeholder"></div>
   }
 
   @if (isEditMode) {
     <label class="upload-button">
-      @if (uploading) {
-        Enviando...
-      } @else {
-        Trocar imagem
-      }
+      @if (uploading) { Enviando... } @else { Trocar imagem }
       <input type="file" accept="image/jpeg,image/png,image/webp" (change)="onFileSelected($event)" hidden />
     </label>
   }
