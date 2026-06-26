@@ -4,7 +4,8 @@
   min-height: 100vh;
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: var(--spacing-md) var(--spacing-md) 0;
+  padding: var(--spacing-lg) var(--spacing-lg) 0;
+  gap: var(--spacing-lg);
 }
 
 .site-main {
