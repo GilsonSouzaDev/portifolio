@@ -12,7 +12,7 @@ export class Navbar {
   menuOpen = signal(false);
 
   links = [
-    { label: 'Nome', href: '#hero' },
+    { label: 'Home', href: '#hero' },
     { label: 'Sobre', href: '#sobre' },
     { label: 'Resumo', href: '#resumo' },
     { label: 'Portfólio', href: '#portfolio' },
