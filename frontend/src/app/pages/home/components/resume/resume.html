@@ -1,0 +1,51 @@
+<section class="resume" id="resumo">
+  <h3 class="section-title">Resumo</h3>
+
+  <div class="resume-profile">
+    <div class="resume-profile-text">
+      <span class="label">Perfil Profissional</span>
+      <h4>Foco em evolução</h4>
+      <p class="soft-skills-heading">Minhas Soft Skills</p>
+    </div>
+
+    <div class="soft-skills-timeline">
+      @for (skill of softSkills; track skill.id; let i = $index) {
+        @if (i >= activeSoftSkillSlide() && i < activeSoftSkillSlide() + 3) {
+          <div class="timeline-item">
+            <div class="timeline-marker"></div>
+            <div class="timeline-content">
+              <h5>{{ skill.name }}</h5>
+            </div>
+          </div>
+        }
+      }
+    </div>
+  </div>
+
+  @if (softSkills.length > 3) {
+    <div class="pagination-dots">
+      @for (skill of softSkills; track skill.id; let i = $index) {
+        @if (i % 3 === 0) {
+          <button
+            type="button"
+            class="dot"
+            [class.active]="activeSoftSkillSlide() === i"
+            (click)="setSoftSkillSlide(i)"
+            [attr.aria-label]="'Slide ' + (i / 3 + 1)"
+          ></button>
+        }
+      }
+    </div>
+  }
+
+  @if (hardSkills.length > 0) {
+    <div class="hard-skills-grid">
+      @for (skill of hardSkills; track skill.id) {
+        <div class="hard-skill-card">
+          <span class="skill-icon">●</span>
+          <span class="skill-name">{{ skill.name }}</span>
+        </div>
+      }
+    </div>
+  }
+</section>

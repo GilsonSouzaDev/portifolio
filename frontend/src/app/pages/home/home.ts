@@ -1,18 +1,22 @@
 import { Component, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { Profile, ProfileService } from '../../core/services/profile';
 import { Skill, SkillsService } from '../../core/services/skills';
 import { Project, ProjectsService } from '../../core/services/projects';
 import { SocialLink, SocialLinksService } from '../../core/services/social-links';
-import { InlineEditor } from '../../shared/components/inline-editor/inline-editor';
-import { ImageUploader } from '../../shared/components/image-uploader/image-uploader';
 import { EditMode } from '../../core/services/edit-mode';
+
+import { Hero } from './components/hero/hero';
+import { About } from './components/about/about';
+import { Resume } from './components/resume/resume';
+import { Portfolio } from './components/portfolio/portfolio';
+import { Contact } from './components/contact/contact';
+import { Footer } from './components/footer/footer';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule, InlineEditor, ImageUploader],
+  imports: [CommonModule, Hero, About, Resume, Portfolio, Contact, Footer],
   templateUrl: './home.html',
   styleUrl: './home.scss',
 })
@@ -21,31 +25,13 @@ export class Home implements OnInit {
   skills = signal<Skill[]>([]);
   projects = signal<Project[]>([]);
   socialLinks = signal<SocialLink[]>([]);
-  activePortfolioFilter = signal('All');
-  activeSoftSkillSlide = signal(0);
-
-  portfolioFilters = ['All', 'Dashboards', 'Web Apps', 'Integrations'];
 
   hardSkills = computed(() => this.skills().filter((s) => !this.isSoftSkill(s)));
-
   softSkills = computed(() => this.skills().filter((s) => this.isSoftSkill(s)));
-
-  filteredProjects = computed(() => {
-    const filter = this.activePortfolioFilter();
-    const all = this.projects();
-    if (filter === 'All') return all;
-    return all.filter(
-      (p) =>
-        p.title.toLowerCase().includes(filter.toLowerCase()) ||
-        p.technologies.toLowerCase().includes(filter.toLowerCase()),
-    );
-  });
 
   linkedInLink = computed(
     () => this.socialLinks().find((l) => l.platform.toLowerCase().includes('linkedin')) ?? null,
   );
-
-  contactForm = { name: '', email: '', message: '' };
 
   constructor(
     private profileService: ProfileService,
@@ -80,25 +66,6 @@ export class Home implements OnInit {
     const updated = { ...current, avatarUrl: url };
     this.profile.set(updated);
     this.profileService.update(updated).subscribe();
-  }
-
-  setPortfolioFilter(filter: string): void {
-    this.activePortfolioFilter.set(filter);
-  }
-
-  setSoftSkillSlide(index: number): void {
-    this.activeSoftSkillSlide.set(index);
-  }
-
-  getTechTags(technologies: string): string[] {
-    return technologies
-      .split(',')
-      .map((t) => t.trim())
-      .filter(Boolean);
-  }
-
-  onContactSubmit(): void {
-    // Integração com API será feita em fase posterior
   }
 
   private isSoftSkill(skill: Skill): boolean {

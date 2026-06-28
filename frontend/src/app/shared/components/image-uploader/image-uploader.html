@@ -1,9 +1,11 @@
 <div class="image-uploader">
-  @if (imageUrl) {
-    <img [src]="imageUrl" alt="Avatar" class="preview" />
-  } @else {
-    <div class="placeholder"></div>
-  }
+  <div class="diamond-wrapper">
+    @if (imageUrl) {
+      <img [src]="imageUrl" alt="Avatar" class="preview" />
+    } @else {
+      <div class="placeholder"></div>
+    }
+  </div>
 
   @if (isEditMode) {
     <label class="upload-button">

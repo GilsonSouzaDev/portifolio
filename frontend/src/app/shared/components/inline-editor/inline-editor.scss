@@ -1,6 +1,8 @@
 .editable-text {
-  display: inline-block;
+  display: inline;
   font-family: inherit;
+  font-size: inherit;
+  color: inherit;
 
   &.edit-mode {
     cursor: pointer;

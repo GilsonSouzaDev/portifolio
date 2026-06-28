@@ -53,6 +53,7 @@ public class SkillsController : ControllerBase
 
         skill.Name = updated.Name;
         skill.Category = updated.Category;
+        skill.Description = updated.Description;
         skill.ProficiencyLevel = updated.ProficiencyLevel;
         skill.IconUrl = updated.IconUrl;
         skill.DisplayOrder = updated.DisplayOrder;

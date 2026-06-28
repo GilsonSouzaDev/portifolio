@@ -1,0 +1,37 @@
+<section class="projects" id="portfolio">
+  <h3 class="section-title">My Portfolio</h3>
+
+  <div class="portfolio-filters">
+    @for (filter of portfolioFilters; track filter) {
+      <button
+        type="button"
+        class="filter-btn"
+        [class.active]="activePortfolioFilter() === filter"
+        (click)="setPortfolioFilter(filter)"
+      >
+        {{ filter }}
+      </button>
+    }
+  </div>
+
+  <div class="projects-grid">
+    @for (project of filteredProjects(); track project.id) {
+      <article class="project-card">
+        @if (project.thumbnailUrl) {
+          <div class="project-thumbnail-wrap">
+            <img class="project-thumbnail" [src]="project.thumbnailUrl" [alt]="project.title" />
+          </div>
+        }
+        <div class="project-info">
+          <h4>{{ project.title }}</h4>
+          <div class="tech-tags">
+            @for (tag of getTechTags(project.technologies); track tag) {
+              <span class="tech-tag">{{ tag }}</span>
+            }
+          </div>
+          <p>{{ project.description }}</p>
+        </div>
+      </article>
+    }
+  </div>
+</section>

@@ -1,0 +1,70 @@
+@use '../../../../../scss/breakpoints' as *;
+
+.site-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--color-bg-secondary);
+  border-radius: var(--border-radius-nav);
+  padding: var(--spacing-md) var(--spacing-lg);
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+
+  .footer-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .footer-logo {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: var(--font-size-sm);
+    color: var(--color-primary);
+    letter-spacing: 0.05em;
+  }
+
+  .footer-role {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-subtle);
+    font-family: var(--font-body);
+    font-weight: 400;
+  }
+
+  .footer-copy {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-subtle);
+    font-family: var(--font-body);
+    font-weight: 400;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: var(--spacing-md);
+
+    a {
+      color: var(--color-text);
+      text-decoration: none;
+      font-size: var(--font-size-xs);
+      font-family: var(--font-body);
+      font-weight: 400;
+      transition: color 0.2s ease;
+
+      &:hover {
+        color: var(--color-primary);
+      }
+    }
+  }
+}
+
+@include sm {
+  .site-footer {
+    flex-direction: column;
+    text-align: center;
+
+    .footer-links {
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+  }
+}

@@ -3,7 +3,7 @@
 
   <nav class="nav-links desktop-only">
     @for (link of links; track link.href) {
-      <a [href]="link.href" [class.active]="link.href === '#hero'">{{ link.label }}</a>
+      <a [href]="link.href">{{ link.label }}</a>
     }
   </nav>
 
@@ -15,7 +15,7 @@
   <nav class="drawer">
     <button class="drawer-close" (click)="closeMenu()">✕</button>
     @for (link of links; track link.href) {
-      <a [href]="link.href" [class.active]="link.href === '#hero'" (click)="closeMenu()">{{ link.label }}</a>
+      <a [href]="link.href" (click)="closeMenu()">{{ link.label }}</a>
     }
   </nav>
 }
