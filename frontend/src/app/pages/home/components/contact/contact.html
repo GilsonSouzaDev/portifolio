@@ -1,0 +1,46 @@
+<section class="contact" id="contato">
+  <span class="label label-upper">Contato</span>
+  <h3>Vamos conversar?</h3>
+  <p class="contact-subtitle">Aberto a oportunidades, ideias e projetos colaborativos.</p>
+
+  <div class="contact-grid">
+    <form class="contact-form" (ngSubmit)="onContactSubmit()">
+      <input type="text" placeholder="Seu nome" [(ngModel)]="contactForm.name" name="name" />
+      <input type="email" placeholder="seu@email.com" [(ngModel)]="contactForm.email" name="email" />
+      <textarea placeholder="Sua mensagem..." rows="4" [(ngModel)]="contactForm.message" name="message"></textarea>
+      <button type="submit" class="btn-outline">Enviar mensagem</button>
+    </form>
+
+    <div class="contact-info">
+      <div class="info-row">
+        <span class="info-icon">✉</span>
+        <span>gilson@email.com</span>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">📍</span>
+        <span>São Paulo, Brasil</span>
+      </div>
+      <div class="info-row">
+        <span class="info-icon">☺</span>
+        <span>Disponível para projetos</span>
+      </div>
+
+      <p class="social-label">Redes Sociais</p>
+      <div class="social-icons">
+        @for (link of socialLinks; track link.id) {
+          <a [href]="link.url" target="_blank" rel="noopener" class="social-icon" [attr.aria-label]="link.platform">
+            {{ link.platform.charAt(0) }}
+          </a>
+        }
+      </div>
+
+      @if (profile?.resumeUrl) {
+        <a [href]="profile!.resumeUrl!" target="_blank" rel="noopener" class="btn-download">
+          Baixar currículo
+        </a>
+      } @else {
+        <a href="#" class="btn-download">Baixar currículo</a>
+      }
+    </div>
+  </div>
+</section>

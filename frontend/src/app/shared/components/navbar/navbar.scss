@@ -28,8 +28,7 @@
     font-size: var(--font-size-sm);
     transition: color 0.2s ease;
 
-    &:hover,
-    &.active {
+    &:hover {
       color: var(--color-primary);
     }
   }

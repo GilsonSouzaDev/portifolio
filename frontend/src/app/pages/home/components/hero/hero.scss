@@ -1,0 +1,91 @@
+@use '../../../../../scss/breakpoints' as *;
+
+.hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  background: var(--color-bg-card);
+  border-radius: var(--border-radius-md);
+  padding: 3.5rem 3rem;
+  min-height: 360px;
+
+  .hero-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-md);
+    padding-right: var(--spacing-xl);
+
+    .intro {
+      color: var(--color-text-muted);
+      font-size: var(--font-size-sm);
+      font-family: var(--font-body);
+      font-weight: 400;
+    }
+
+    h1 {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: 2.5rem;
+      color: var(--color-primary);
+      line-height: 1.2;
+      margin: 0;
+    }
+
+    .hero-social {
+      display: flex;
+      margin-top: var(--spacing-sm);
+    }
+
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      background: var(--color-primary-gradient);
+      color: var(--color-text);
+      text-decoration: none;
+      padding: 0.55rem 1.25rem;
+      border-radius: var(--border-radius-sm);
+      font-family: var(--font-body);
+      font-weight: 500;
+      font-size: var(--font-size-sm);
+      transition: opacity 0.2s ease;
+
+      &:hover {
+        opacity: 0.88;
+      }
+    }
+  }
+
+  .hero-avatar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 240px;
+  }
+}
+
+@include sm {
+  .hero {
+    grid-template-columns: 1fr;
+    text-align: center;
+    padding: var(--spacing-xl) var(--spacing-lg);
+
+    .hero-text {
+      align-items: center;
+      padding-right: 0;
+
+      .hero-social {
+        justify-content: center;
+      }
+    }
+
+    .hero-avatar {
+      order: -1;
+    }
+  }
+}
+
+@include xs {
+  .hero .hero-text h1 {
+    font-size: var(--font-size-xl);
+  }
+}
