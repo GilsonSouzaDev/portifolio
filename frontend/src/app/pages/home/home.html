@@ -16,6 +16,7 @@
     <app-resume
       [softSkills]="softSkills()"
       [hardSkills]="hardSkills()"
+      [badges]="badges()"
     />
   }
 
@@ -25,10 +26,12 @@
     />
   }
 
-  <app-contact
-    [profile]="profile()"
-    [socialLinks]="socialLinks()"
-  />
+  <div class="end-of-page-lock">
+    <app-contact
+      [profile]="profile()"
+      [socialLinks]="socialLinks()"
+    />
 
-  <app-footer />
+    <app-footer />
+  </div>
 </div>

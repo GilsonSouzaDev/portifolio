@@ -1,51 +1,59 @@
 <section class="resume" id="resumo">
   <h3 class="section-title">Resumo</h3>
 
-  <div class="resume-profile">
-    <div class="resume-profile-text">
-      <span class="label">Perfil Profissional</span>
-      <h4>Foco em evolução</h4>
-      <p class="soft-skills-heading">Minhas Soft Skills</p>
-    </div>
+  <div class="carousel-wrapper">
+    @if (activeSlide() === 0 || activeSlide() === 1) {
+      <div class="resume-grid">
+        <div class="resume-profile-text">
+          <span class="label">Perfil Profissional</span>
+          <h4>Foco em evolução constante e soluções colaborativas.</h4>
+          <p class="soft-skills-heading">{{ activeHeading() }}</p>
+        </div>
 
-    <div class="soft-skills-timeline">
-      @for (skill of softSkills; track skill.id; let i = $index) {
-        @if (i >= activeSoftSkillSlide() && i < activeSoftSkillSlide() + 3) {
-          <div class="timeline-item">
-            <div class="timeline-marker"></div>
-            <div class="timeline-content">
-              <h5>{{ skill.name }}</h5>
+        <div class="carousel-container">
+          <div class="scroll-wrapper">
+            <div class="skills-timeline">
+              @for (skill of currentSkills(); track skill.id) {
+                <div class="timeline-item">
+                  <div class="timeline-marker"></div>
+                  <div class="timeline-content">
+                    <h5>{{ skill.name }}</h5>
+                    <p>{{ skill.description }}</p>
+                  </div>
+                </div>
+              }
             </div>
           </div>
-        }
-      }
+          <div class="scroll-indicator" aria-hidden="true">↓</div>
+        </div>
+      </div>
+    }
+
+    @if (activeSlide() === 2) {
+      <div class="badges-container">
+        <div class="badges-grid">
+          @for (badge of badges; track badge.id) {
+            <div class="badge-card">
+              @if (badge.iconUrl) {
+                <img [src]="badge.iconUrl" [alt]="badge.name" />
+              }
+              <span>{{ badge.name }}</span>
+            </div>
+          }
+        </div>
+      </div>
+    }
+
+    <div class="carousel-navigation">
+      <button type="button" class="nav-arrow" (click)="prevSlide()" aria-label="Anterior">&lsaquo;</button>
+      
+      <div class="pagination-dots">
+        <button type="button" class="dot" [class.active]="activeSlide() === 0" (click)="setSlide(0)" aria-label="Soft Skills"></button>
+        <button type="button" class="dot" [class.active]="activeSlide() === 1" (click)="setSlide(1)" aria-label="Hard Skills"></button>
+        <button type="button" class="dot" [class.active]="activeSlide() === 2" (click)="setSlide(2)" aria-label="Badges"></button>
+      </div>
+
+      <button type="button" class="nav-arrow" (click)="nextSlide()" aria-label="Próximo">&rsaquo;</button>
     </div>
   </div>
-
-  @if (softSkills.length > 3) {
-    <div class="pagination-dots">
-      @for (skill of softSkills; track skill.id; let i = $index) {
-        @if (i % 3 === 0) {
-          <button
-            type="button"
-            class="dot"
-            [class.active]="activeSoftSkillSlide() === i"
-            (click)="setSoftSkillSlide(i)"
-            [attr.aria-label]="'Slide ' + (i / 3 + 1)"
-          ></button>
-        }
-      }
-    </div>
-  }
-
-  @if (hardSkills.length > 0) {
-    <div class="hard-skills-grid">
-      @for (skill of hardSkills; track skill.id) {
-        <div class="hard-skill-card">
-          <span class="skill-icon">●</span>
-          <span class="skill-name">{{ skill.name }}</span>
-        </div>
-      }
-    </div>
-  }
 </section>

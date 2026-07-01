@@ -1,7 +1,7 @@
 import { Component, OnInit, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Profile, ProfileService } from '../../core/services/profile';
-import { Skill, SkillsService } from '../../core/services/skills';
+import { Skill, SkillCategory, SkillsService } from '../../core/services/skills';
 import { Project, ProjectsService } from '../../core/services/projects';
 import { SocialLink, SocialLinksService } from '../../core/services/social-links';
 import { EditMode } from '../../core/services/edit-mode';
@@ -26,8 +26,19 @@ export class Home implements OnInit {
   projects = signal<Project[]>([]);
   socialLinks = signal<SocialLink[]>([]);
 
-  hardSkills = computed(() => this.skills().filter((s) => !this.isSoftSkill(s)));
-  softSkills = computed(() => this.skills().filter((s) => this.isSoftSkill(s)));
+  softSkills = computed(() =>
+    this.skills()
+      .filter((s) => s.category === SkillCategory.Soft)
+      .sort((a, b) => b.proficiencyLevel - a.proficiencyLevel),
+  );
+
+  hardSkills = computed(() =>
+    this.skills()
+      .filter((s) => s.category === SkillCategory.Hard)
+      .sort((a, b) => b.proficiencyLevel - a.proficiencyLevel),
+  );
+
+  badges = computed(() => this.skills().filter((s) => s.category === SkillCategory.Badge));
 
   linkedInLink = computed(
     () => this.socialLinks().find((l) => l.platform.toLowerCase().includes('linkedin')) ?? null,
@@ -66,9 +77,5 @@ export class Home implements OnInit {
     const updated = { ...current, avatarUrl: url };
     this.profile.set(updated);
     this.profileService.update(updated).subscribe();
-  }
-
-  private isSoftSkill(skill: Skill): boolean {
-    return skill.category.toLowerCase().includes('soft');
   }
 }

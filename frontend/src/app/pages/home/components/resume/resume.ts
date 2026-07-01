@@ -1,4 +1,4 @@
-import { Component, Input, signal } from '@angular/core';
+import { Component, Input, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Skill } from '../../../../core/services/skills';
 
@@ -12,10 +12,34 @@ import { Skill } from '../../../../core/services/skills';
 export class Resume {
   @Input({ required: true }) softSkills: Skill[] = [];
   @Input({ required: true }) hardSkills: Skill[] = [];
+  @Input({ required: true }) badges: Skill[] = [];
 
-  activeSoftSkillSlide = signal(0);
+  activeSlide = signal(0);
 
-  setSoftSkillSlide(index: number): void {
-    this.activeSoftSkillSlide.set(index);
+  activeHeading = computed(() => {
+    switch (this.activeSlide()) {
+      case 0: return 'Minhas Soft Skills';
+      case 1: return 'Minhas Hard Skills';
+      case 2: return 'Meus Badges';
+      default: return '';
+    }
+  });
+
+  currentSkills = computed(() => {
+    return this.activeSlide() === 0 ? this.softSkills : this.hardSkills;
+  });
+
+  setSlide(index: number): void {
+    this.activeSlide.set(index);
+  }
+
+  prevSlide(): void {
+    const current = this.activeSlide();
+    this.activeSlide.set(current > 0 ? current - 1 : 2);
+  }
+
+  nextSlide(): void {
+    const current = this.activeSlide();
+    this.activeSlide.set(current < 2 ? current + 1 : 0);
   }
 }

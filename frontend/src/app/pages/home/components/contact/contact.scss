@@ -6,22 +6,18 @@
   padding: 3rem;
   text-align: center;
 
-  .label {
+  .section-title {
+    font-family: var(--font-heading);
+    font-size: var(--font-size-xl);
     color: var(--color-primary);
-    font-size: var(--font-size-xs);
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    font-family: var(--font-body);
-
-    &.label-upper {
-      text-transform: uppercase;
-    }
+    margin-bottom: var(--spacing-sm);
+    font-weight: 700;
   }
 
-  h3 {
+  .contact-heading {
     font-family: var(--font-heading);
     font-weight: 700;
-    font-size: var(--font-size-2xl);
+    font-size: var(--font-size-max);
     margin: var(--spacing-xs) 0;
     color: var(--color-text);
   }
@@ -178,7 +174,12 @@
 
 @include sm {
   .contact {
-    padding: var(--spacing-xl) var(--spacing-lg);
+    padding: var(--spacing-lg) 0;
+    background: transparent;
+
+    .contact-heading {
+      font-size: 2.25rem;
+    }
   }
 
   .contact-grid {
