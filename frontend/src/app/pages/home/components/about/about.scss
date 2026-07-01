@@ -57,7 +57,13 @@
 @include sm {
   .about {
     grid-template-columns: 1fr;
-    padding: var(--spacing-xl) var(--spacing-lg);
+    padding: var(--spacing-lg) 0;
+    background: transparent;
+
+    .about-text-card {
+      background: transparent;
+      padding: 0;
+    }
 
     .about-image-card {
       order: 1;

@@ -55,5 +55,16 @@
   .diamond-wrapper {
     width: 170px;
     height: 170px;
+    clip-path: none;
+    border: 2px solid var(--color-primary);
+    border-radius: var(--border-radius-lg);
+    background: transparent;
+    padding: var(--spacing-sm);
+  }
+  
+  .preview, .placeholder {
+    clip-path: none;
+    border-radius: 50%; // Make the image itself a circle
+    background: var(--color-bg-card);
   }
 }

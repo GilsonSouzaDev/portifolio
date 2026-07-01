@@ -2,10 +2,17 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+export enum SkillCategory {
+  Soft = 0,
+  Hard = 1,
+  Badge = 2,
+}
+
 export interface Skill {
   id: number;
   name: string;
-  category: string;
+  category: SkillCategory;
+  description: string;
   proficiencyLevel: number;
   iconUrl: string | null;
   displayOrder: number;
