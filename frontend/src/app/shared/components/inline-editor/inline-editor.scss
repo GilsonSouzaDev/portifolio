@@ -4,18 +4,6 @@
   font-size: inherit;
   color: inherit;
 
-  &.edit-mode {
-    cursor: pointer;
-    border: 1px dashed transparent;
-    border-radius: var(--border-radius-sm);
-    padding: var(--spacing-xs);
-    transition: all 0.2s ease;
-
-    &:hover {
-      border-color: var(--color-primary);
-      background: rgba(232, 99, 10, 0.08);
-    }
-  }
 }
 
 input,

@@ -3,30 +3,69 @@
   flex-direction: column;
   align-items: center;
   gap: var(--spacing-sm);
+  border-radius: var(--border-radius-sm);
+  transition: all 0.2s ease;
+
+  &.edit-mode {
+    padding: var(--spacing-md);
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px dashed rgba(255, 255, 255, 0.15);
+  }
 }
 
-.diamond-wrapper {
-  width: 200px;
-  height: 200px;
-  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+.image-wrapper {
   background: var(--color-primary);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 3px;
+  position: relative;
+  overflow: hidden;
+
+  &.diamond {
+    width: 250px;
+    height: 250px;
+    clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    padding: 3px;
+
+    .preview, .placeholder {
+      clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
+    }
+  }
+
+  &.rectangle {
+    width: 100%;
+    height: 160px;
+    border-radius: var(--border-radius-sm);
+    padding: 0;
+
+    .preview, .placeholder {
+      clip-path: none;
+      border-radius: var(--border-radius-sm);
+    }
+  }
+
+  &.circle {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    padding: 3px;
+
+    .preview, .placeholder {
+      clip-path: none;
+      border-radius: 50%;
+    }
+  }
 }
 
 .preview {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
 }
 
 .placeholder {
   width: 100%;
   height: 100%;
-  clip-path: polygon(50% 0%, 100% 50%, 50% 100%, 0% 50%);
   background: var(--color-bg-placeholder);
   display: block;
 }
@@ -52,19 +91,8 @@
 }
 
 @media (max-width: 768px) {
-  .diamond-wrapper {
-    width: 170px;
-    height: 170px;
-    clip-path: none;
-    border: 2px solid var(--color-primary);
-    border-radius: var(--border-radius-lg);
-    background: transparent;
-    padding: var(--spacing-sm);
-  }
-  
-  .preview, .placeholder {
-    clip-path: none;
-    border-radius: 50%; // Make the image itself a circle
-    background: var(--color-bg-card);
+  .image-wrapper.diamond {
+    width: 220px;
+    height: 220px;
   }
 }

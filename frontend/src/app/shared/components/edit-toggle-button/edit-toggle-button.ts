@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { EditMode } from '../../../core/services/edit-mode';
 import { Auth } from '../../../core/services/auth';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit-toggle-button',
@@ -14,6 +15,7 @@ export class EditToggleButton {
   constructor(
     private editMode: EditMode,
     private auth: Auth,
+    private router: Router
   ) {}
 
   get isAuthenticated(): boolean {
@@ -25,6 +27,15 @@ export class EditToggleButton {
   }
 
   toggle(): void {
-    this.editMode.toggle();
+    if (!this.isAuthenticated) {
+      this.router.navigate(['/auth']);
+    } else {
+      if (this.isEditMode) {
+        this.auth.logout();
+        this.editMode.disable();
+      } else {
+        this.editMode.enable();
+      }
+    }
   }
 }

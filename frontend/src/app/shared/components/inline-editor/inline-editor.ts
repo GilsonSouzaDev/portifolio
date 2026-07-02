@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { EditMode } from '../../../core/services/edit-mode';
@@ -10,28 +10,28 @@ import { EditMode } from '../../../core/services/edit-mode';
   templateUrl: './inline-editor.html',
   styleUrl: './inline-editor.scss',
 })
-export class InlineEditor {
+export class InlineEditor implements OnInit, OnChanges {
   @Input() value = '';
   @Input() multiline = false;
   @Output() valueChange = new EventEmitter<string>();
 
-  editing = false;
   draft = '';
 
   constructor(private editMode: EditMode) {}
+
+  ngOnInit() {
+    this.draft = this.value;
+  }
+
+  ngOnChanges() {
+    this.draft = this.value;
+  }
 
   get isEditMode(): boolean {
     return this.editMode.isEditMode();
   }
 
-  startEditing(): void {
-    if (!this.isEditMode) return;
-    this.draft = this.value;
-    this.editing = true;
-  }
-
   save(): void {
-    this.editing = false;
     if (this.draft !== this.value) {
       this.value = this.draft;
       this.valueChange.emit(this.draft);
@@ -39,7 +39,6 @@ export class InlineEditor {
   }
 
   cancel(): void {
-    this.editing = false;
     this.draft = this.value;
   }
 }

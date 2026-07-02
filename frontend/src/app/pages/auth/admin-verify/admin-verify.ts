@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Auth } from '../../../core/services/auth';
+import { EditMode } from '../../../core/services/edit-mode';
 
 @Component({
   selector: 'app-admin-verify',
@@ -19,6 +20,7 @@ export class AdminVerify {
   constructor(
     private auth: Auth,
     private router: Router,
+    private editMode: EditMode
   ) {}
 
   verify() {
@@ -33,7 +35,8 @@ export class AdminVerify {
     this.auth.verifyCode(this.code).subscribe({
       next: () => {
         this.loading = false;
-        this.router.navigate(['/admin']);
+        this.editMode.enable();
+        this.router.navigate(['/']);
       },
       error: () => {
         this.loading = false;

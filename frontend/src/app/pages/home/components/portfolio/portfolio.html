@@ -1,5 +1,5 @@
 <section class="projects" id="portfolio">
-  <h3 class="section-title">My Portfolio</h3>
+  <h3 class="section-title">Portfólio</h3>
 
   <div class="portfolio-filters">
     @for (filter of portfolioFilters; track filter) {
@@ -14,24 +14,97 @@
     }
   </div>
 
-  <div class="projects-grid">
-    @for (project of filteredProjects(); track project.id) {
-      <article class="project-card">
-        @if (project.thumbnailUrl) {
+  @if (filteredProjects.length === 0) {
+    <div class="empty-portfolio">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="empty-icon">
+        <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+      </svg>
+      <p>Nenhum projeto encontrado para este filtro.</p>
+      @if (isEditMode) {
+        <button class="add-btn" (click)="openProjectForm()">+ Adicionar Projeto</button>
+      }
+    </div>
+  } @else {
+    <div class="projects-grid">
+      @for (project of filteredProjects; track project.id) {
+        <article class="project-card">
+          @if (isEditMode) {
+            <button class="delete-btn" (click)="requestProjectDelete(project.id)" title="Deletar projeto">&times;</button>
+          }
           <div class="project-thumbnail-wrap">
-            <img class="project-thumbnail" [src]="project.thumbnailUrl" [alt]="project.title" />
+            <app-image-uploader
+              shape="rectangle"
+              [imageUrl]="project.thumbnailUrl || ''"
+              (imageUrlChange)="onProjectUpdate(project, 'thumbnailUrl', $event)"
+            />
           </div>
-        }
-        <div class="project-info">
-          <h4>{{ project.title }}</h4>
-          <div class="tech-tags">
-            @for (tag of getTechTags(project.technologies); track tag) {
-              <span class="tech-tag">{{ tag }}</span>
-            }
+          <div class="project-info">
+            <h4>
+              <app-inline-editor
+                [value]="project.title"
+                (valueChange)="onProjectUpdate(project, 'title', $event)"
+              />
+            </h4>
+            <div class="tech-tags">
+              @if (isEditMode) {
+                <app-inline-editor
+                  [value]="project.technologies"
+                  (valueChange)="onProjectUpdate(project, 'technologies', $event)"
+                />
+              } @else {
+                @for (tag of getTechTags(project.technologies); track tag) {
+                  <span class="tech-tag">{{ tag }}</span>
+                }
+              }
+            </div>
+            <p>
+              <app-inline-editor
+                [value]="project.description"
+                [multiline]="true"
+                (valueChange)="onProjectUpdate(project, 'description', $event)"
+              />
+            </p>
+            <div class="project-links">
+              <a [href]="project.repositoryUrl" target="_blank" rel="noopener" class="project-link" (click)="onLinkClick($event, project, 'repositoryUrl')">GitHub</a>
+              <a [href]="project.projectUrl" target="_blank" rel="noopener" class="project-link" (click)="onLinkClick($event, project, 'projectUrl')">Demo</a>
+            </div>
           </div>
-          <p>{{ project.description }}</p>
+        </article>
+      }
+      @if (isEditMode) {
+        <div class="project-card add-card" (click)="openProjectForm()">
+          <div class="add-icon">+</div>
+          <div class="add-text">Adicionar Projeto</div>
         </div>
-      </article>
-    }
-  </div>
+      }
+    </div>
+  }
 </section>
+
+@if (projectToDelete !== null) {
+  <app-confirm-dialog
+    title="Excluir Projeto"
+    message="Tem certeza que deseja excluir este projeto definitivamente?"
+    confirmText="Excluir"
+    cancelText="Cancelar"
+    (confirm)="confirmProjectDelete()"
+    (cancel)="cancelProjectDelete()"
+  />
+}
+
+@if (isAddingProject) {
+  <app-project-form
+    (save)="saveNewProject($event)"
+    (cancel)="cancelProjectForm()"
+  />
+}
+
+@if (promptState.isOpen) {
+  <app-prompt-dialog
+    [title]="promptState.title"
+    [message]="promptState.message"
+    [initialValue]="promptState.initialValue"
+    (confirm)="confirmPrompt($event)"
+    (cancel)="cancelPrompt()"
+  />
+}
