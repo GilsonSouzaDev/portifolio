@@ -14,11 +14,11 @@
     <div class="contact-info">
       <div class="info-row">
         <span class="info-icon">✉</span>
-        <span>gilson@email.com</span>
+        <span>gilsonsouza.dev@gmail.com</span>
       </div>
       <div class="info-row">
         <span class="info-icon">📍</span>
-        <span>São Paulo, Brasil</span>
+        <span>Suzano-SP, Brasil</span>
       </div>
       <div class="info-row">
         <span class="info-icon">☺</span>
@@ -28,12 +28,10 @@
       <p class="social-label">Redes Sociais</p>
       <div class="social-icons">
         @for (link of socialLinks; track link.id) {
-          <a [href]="link.url" target="_blank" rel="noopener" class="social-icon" [attr.aria-label]="link.platform">
-            {{ link.platform.charAt(0) }}
+          <a [href]="link.url" target="_blank" rel="noopener" class="social-icon" [attr.aria-label]="link.platform" [innerHTML]="getSocialIcon(link.platform)">
           </a>
         }
       </div>
-
       @if (profile?.resumeUrl) {
         <a [href]="profile!.resumeUrl!" target="_blank" rel="noopener" class="btn-download">
           Baixar currículo

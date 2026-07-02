@@ -1,6 +1,12 @@
 <section class="hero" id="hero">
   <div class="hero-text">
-    <span class="intro">Eu sou {{ profile.name }}</span>
+    <span class="intro">
+      Eu sou
+      <app-inline-editor
+        [value]="profile.name"
+        (valueChange)="onFieldChange('name', $event)"
+      />
+    </span>
     <h1>
       <app-inline-editor
         [value]="profile.title"
@@ -9,7 +15,8 @@
     </h1>
     <div class="hero-social">
       @if (linkedInLink; as link) {
-        <a [href]="link.url" target="_blank" rel="noopener" class="hero-cta">
+        <a [href]="link.url" target="_blank" rel="noopener" class="hero-cta"
+           (click)="onSocialClick($event, link)">
           LinkedIn →
         </a>
       } @else {

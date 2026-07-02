@@ -1,5 +1,5 @@
-<div class="image-uploader">
-  <div class="diamond-wrapper">
+<div class="image-uploader" [class.edit-mode]="isEditMode">
+  <div class="image-wrapper" [ngClass]="shape">
     @if (imageUrl) {
       <img [src]="imageUrl" alt="Avatar" class="preview" />
     } @else {

@@ -5,6 +5,7 @@
       [linkedInLink]="linkedInLink()"
       (profileFieldChange)="onProfileFieldChange($event.field, $event.value)"
       (avatarChange)="onAvatarChange($event)"
+      (socialLinkChange)="onSocialLinkUpdate($event)"
     />
     <app-about
       [profile]="profile()!"
@@ -17,12 +18,18 @@
       [softSkills]="softSkills()"
       [hardSkills]="hardSkills()"
       [badges]="badges()"
+      (skillUpdate)="onSkillUpdate($event)"
+      (skillDelete)="onSkillDelete($event)"
+      (skillCreate)="onSkillCreate($event)"
     />
   }
 
-  @if (projects().length > 0) {
+  @if (projects().length > 0 || isEditMode) {
     <app-portfolio
       [projects]="projects()"
+      (projectUpdate)="onProjectUpdate($event)"
+      (projectDelete)="onProjectDelete($event)"
+      (projectCreate)="onProjectCreate($event)"
     />
   }
 

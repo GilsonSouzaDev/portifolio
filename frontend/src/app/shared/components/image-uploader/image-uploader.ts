@@ -12,6 +12,7 @@ import { EditMode } from '../../../core/services/edit-mode';
 })
 export class ImageUploader {
   @Input() imageUrl = '';
+  @Input() shape: 'diamond' | 'rectangle' | 'circle' = 'diamond';
   @Output() imageUrlChange = new EventEmitter<string>();
 
   uploading = false;

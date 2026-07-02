@@ -78,4 +78,41 @@ export class Home implements OnInit {
     this.profile.set(updated);
     this.profileService.update(updated).subscribe();
   }
+
+  onSocialLinkUpdate(link: SocialLink): void {
+    this.socialLinks.update((links) => links.map((l) => (l.id === link.id ? link : l)));
+    this.socialLinksService.update(link.id, link).subscribe();
+  }
+
+  onSkillUpdate(skill: Skill): void {
+    this.skills.update((skills) => skills.map((s) => (s.id === skill.id ? skill : s)));
+    this.skillsService.update(skill.id, skill).subscribe();
+  }
+
+  onSkillDelete(id: number): void {
+    this.skills.update((skills) => skills.filter((s) => s.id !== id));
+    this.skillsService.delete(id).subscribe();
+  }
+
+  onSkillCreate(newSkill: Skill): void {
+    this.skillsService.create(newSkill).subscribe((created) => {
+      this.skills.update((skills) => [...skills, created]);
+    });
+  }
+
+  onProjectUpdate(project: Project): void {
+    this.projects.update((projects) => projects.map((p) => (p.id === project.id ? project : p)));
+    this.projectsService.update(project.id, project).subscribe();
+  }
+
+  onProjectDelete(id: number): void {
+    this.projects.update((projects) => projects.filter((p) => p.id !== id));
+    this.projectsService.delete(id).subscribe();
+  }
+
+  onProjectCreate(newProject: Project): void {
+    this.projectsService.create(newProject).subscribe((created) => {
+      this.projects.update((projects) => [...projects, created]);
+    });
+  }
 }

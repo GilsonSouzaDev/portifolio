@@ -1,0 +1,11 @@
+<div class="modal-backdrop" (click)="onClose($event)">
+  <div class="modal-container" (click)="$event.stopPropagation()">
+    <header class="modal-header">
+      <h3 class="modal-title">{{ title }}</h3>
+      <button class="modal-close" (click)="onClose($event)" aria-label="Fechar">&times;</button>
+    </header>
+    <div class="modal-body">
+      <ng-content></ng-content>
+    </div>
+  </div>
+</div>
