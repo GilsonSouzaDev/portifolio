@@ -21,6 +21,14 @@ builder.Services.AddSingleton<IEmailService>(provider => new FallbackEmailServic
     provider.GetRequiredService<ILogger<FallbackEmailService>>()
 ));
 
+// Registrando as Camadas de Serviço (Clean Architecture / N-Tier)
+builder.Services.AddScoped<Portfolio.API.Services.Interfaces.IProfileService, Portfolio.API.Services.Implementations.ProfileService>();
+builder.Services.AddScoped<Portfolio.API.Services.Interfaces.ISkillsService, Portfolio.API.Services.Implementations.SkillsService>();
+builder.Services.AddScoped<Portfolio.API.Services.Interfaces.IProjectsService, Portfolio.API.Services.Implementations.ProjectsService>();
+builder.Services.AddScoped<Portfolio.API.Services.Interfaces.ISocialLinksService, Portfolio.API.Services.Implementations.SocialLinksService>();
+builder.Services.AddScoped<Portfolio.API.Services.Interfaces.IContactService, Portfolio.API.Services.Implementations.ContactService>();
+
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
