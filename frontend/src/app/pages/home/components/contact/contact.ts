@@ -1,9 +1,9 @@
-import { Component, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectorRef, OnChanges, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Profile } from '../../../../core/services/profile';
 import { SocialLink } from '../../../../core/services/social-links';
-import { ContactService, ContactMessageDto } from '../../../../core/services/contact';
+import { ContactMessageDto } from '../../../../core/services/contact';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 
 @Component({
@@ -13,20 +13,32 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
   templateUrl: './contact.html',
   styleUrl: './contact.scss',
 })
-export class Contact {
+export class Contact implements OnChanges {
   @Input() profile: Profile | null = null;
   @Input() socialLinks: SocialLink[] = [];
+  @Input() status: 'idle' | 'sending' | 'error' = 'idle';
+  
+  @Output() sendMessage = new EventEmitter<ContactMessageDto>();
 
   contactForm: ContactMessageDto = { name: '', email: '', subject: 'Contato pelo Portfólio', message: '' };
-  status: 'idle' | 'sending' | 'error' = 'idle';
   showToast: boolean = false;
   private toastTimeout: any;
 
   constructor(
-    private contactService: ContactService,
     private cdr: ChangeDetectorRef,
     private sanitizer: DomSanitizer
   ) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['status']) {
+      const currentStatus = changes['status'].currentValue;
+      if (currentStatus === 'idle' && changes['status'].previousValue === 'sending') {
+        // Assume success if it went from sending to idle
+        this.showToastMessage();
+        this.resetForm();
+      }
+    }
+  }
 
   onContactSubmit(): void {
     if (this.status === 'sending') return;
@@ -36,20 +48,7 @@ export class Contact {
       return;
     }
 
-    this.status = 'sending';
-    this.contactService.sendMessage(this.contactForm).subscribe({
-      next: () => {
-        this.status = 'idle';
-        this.showToastMessage();
-        this.resetForm();
-        this.cdr.detectChanges();
-      },
-      error: (err) => {
-        console.error('Error sending message:', err);
-        this.status = 'error';
-        this.cdr.detectChanges();
-      }
-    });
+    this.sendMessage.emit(this.contactForm);
   }
 
   showToastMessage(): void {
