@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Portfolio.API.Data;
 using Portfolio.API.Models;
@@ -40,5 +40,15 @@ public class SocialLinksController : ControllerBase
 
         await _context.SaveChangesAsync();
         return Ok(link);
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> Create([FromBody] SocialLink newLink)
+    {
+        newLink.CreatedAt = DateTime.UtcNow;
+        newLink.UpdatedAt = DateTime.UtcNow;
+        _context.SocialLinks.Add(newLink);
+        await _context.SaveChangesAsync();
+        return CreatedAtAction(nameof(GetAll), new { id = newLink.Id }, newLink);
     }
 }
