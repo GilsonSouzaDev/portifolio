@@ -1,4 +1,4 @@
-﻿using Portfolio.API.Models;
+using Portfolio.API.Models;
 
 namespace Portfolio.API.Data;
 
@@ -13,17 +13,45 @@ public static class DataSeeder
                 Name = "Gilson C. Souza",
                 Title = "Full Stack Developer",
                 Bio = "Desenvolvedor Full Stack apaixonado por tecnologia.",
-                AvatarUrl = null,
-                ResumeUrl = null
+                ResumeUrl = "assets/docs/Gilson_Souza_Curriculo.pdf"
             });
         }
-
-        if (context.SocialLinks.Count() == 0)
+        else
         {
-            context.SocialLinks.AddRange(
-                new SocialLink { Platform = "GitHub", Url = "https://github.com/GilsonSouzaDev", DisplayOrder = 1 },
-                new SocialLink { Platform = "LinkedIn", Url = "https://linkedin.com/in/gilson", DisplayOrder = 2 }
-            );
+            var profile = context.Profiles.First();
+            profile.ResumeUrl = "assets/docs/Gilson_Souza_Curriculo.pdf";
+        }
+
+        var existingLinks = context.SocialLinks.ToList();
+
+        if (!existingLinks.Any(s => s.Platform == "GitHub"))
+        {
+            context.SocialLinks.Add(new SocialLink { Platform = "GitHub", Url = "https://github.com/GilsonSouzaDev", DisplayOrder = 1 });
+        }
+        else
+        {
+            var gh = existingLinks.First(s => s.Platform == "GitHub");
+            gh.Url = "https://github.com/GilsonSouzaDev";
+        }
+
+        if (!existingLinks.Any(s => s.Platform == "LinkedIn"))
+        {
+            context.SocialLinks.Add(new SocialLink { Platform = "LinkedIn", Url = "https://www.linkedin.com/in/gilsonsouza-dev/", DisplayOrder = 2 });
+        }
+        else
+        {
+            var ln = existingLinks.First(s => s.Platform == "LinkedIn");
+            ln.Url = "https://www.linkedin.com/in/gilsonsouza-dev/";
+        }
+
+        if (!existingLinks.Any(s => s.Platform == "WhatsApp"))
+        {
+            context.SocialLinks.Add(new SocialLink { Platform = "WhatsApp", Url = "https://wa.me/5511947799976", DisplayOrder = 3 });
+        }
+        else
+        {
+            var wa = existingLinks.First(s => s.Platform == "WhatsApp");
+            wa.Url = "https://wa.me/5511947799976";
         }
 
         context.SaveChanges();

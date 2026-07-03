@@ -4,12 +4,21 @@
   <p class="contact-subtitle">Aberto a oportunidades, ideias e projetos colaborativos.</p>
 
   <div class="contact-grid">
-    <form class="contact-form" (ngSubmit)="onContactSubmit()">
-      <input type="text" placeholder="Seu nome" [(ngModel)]="contactForm.name" name="name" />
-      <input type="email" placeholder="seu@email.com" [(ngModel)]="contactForm.email" name="email" />
-      <textarea placeholder="Sua mensagem..." rows="4" [(ngModel)]="contactForm.message" name="message"></textarea>
-      <button type="submit" class="btn-outline">Enviar mensagem</button>
-    </form>
+    <div class="contact-form-container">
+      <form class="contact-form" (ngSubmit)="onContactSubmit()">
+        <input type="text" placeholder="Seu nome" [(ngModel)]="contactForm.name" name="name" [disabled]="status === 'sending'" required />
+        <input type="email" placeholder="seu@email.com" [(ngModel)]="contactForm.email" name="email" [disabled]="status === 'sending'" required />
+        <textarea placeholder="Sua mensagem..." rows="4" [(ngModel)]="contactForm.message" name="message" [disabled]="status === 'sending'" required></textarea>
+        
+        @if (status === 'error') {
+          <div class="error-message">Erro ao enviar mensagem. Tente novamente.</div>
+        }
+        
+        <button type="submit" class="btn-outline" [disabled]="status === 'sending'">
+          {{ status === 'sending' ? 'Enviando...' : 'Enviar mensagem' }}
+        </button>
+      </form>
+    </div>
 
     <div class="contact-info">
       <div class="info-row">
@@ -42,3 +51,16 @@
     </div>
   </div>
 </section>
+
+@if (showToast) {
+  <div class="toast-notification">
+    <div class="toast-content">
+      <div class="toast-icon">✓</div>
+      <div class="toast-text">
+        <h4>Obrigado pelo contato!</h4>
+        <p>Sua mensagem foi enviada com sucesso.</p>
+      </div>
+    </div>
+    <button type="button" class="toast-close" (click)="closeToast()" aria-label="Fechar">×</button>
+  </div>
+}

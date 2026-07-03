@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Portfolio.API.Data;
 using Portfolio.API.Models;
+using Portfolio.API.Services.Email;
 
 namespace Portfolio.API.Controllers;
 
@@ -10,10 +11,12 @@ namespace Portfolio.API.Controllers;
 public class ContactController : ControllerBase
 {
     private readonly AppDbContext _context;
+    private readonly IEmailService _emailService;
 
-    public ContactController(AppDbContext context)
+    public ContactController(AppDbContext context, IEmailService emailService)
     {
         _context = context;
+        _emailService = emailService;
     }
 
     [HttpPost]
@@ -29,6 +32,16 @@ public class ContactController : ControllerBase
 
         _context.ContactMessages.Add(message);
         await _context.SaveChangesAsync();
+
+        // Construir o corpo do e-mail
+        var body = $"Você recebeu uma nova mensagem de contato do seu Portfólio!\n\n" +
+                   $"Nome: {message.Name}\n" +
+                   $"Email: {message.Email}\n" +
+                   $"Assunto: {message.Subject}\n\n" +
+                   $"Mensagem:\n{message.Message}";
+
+        // Enviar o e-mail
+        await _emailService.SendEmailAsync($"Novo Contato: {message.Subject} - {message.Name}", body);
 
         return Ok(new { message = "Mensagem enviada com sucesso." });
     }
