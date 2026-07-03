@@ -4,7 +4,6 @@ import { Profile } from '../../../../core/services/profile';
 import { SocialLink } from '../../../../core/services/social-links';
 import { InlineEditor } from '../../../../shared/components/inline-editor/inline-editor';
 import { ImageUploader } from '../../../../shared/components/image-uploader/image-uploader';
-import { EditMode } from '../../../../core/services/edit-mode';
 
 @Component({
   selector: 'app-hero',
@@ -16,14 +15,15 @@ import { EditMode } from '../../../../core/services/edit-mode';
 export class Hero {
   @Input({ required: true }) profile!: Profile;
   @Input() linkedInLink: SocialLink | null = null;
+  @Input() isEditMode: boolean = false;
   @Output() profileFieldChange = new EventEmitter<{ field: keyof Profile; value: string }>();
   @Output() avatarChange = new EventEmitter<string>();
   @Output() socialLinkChange = new EventEmitter<SocialLink>();
 
-  constructor(private editMode: EditMode) {}
+  constructor() {}
 
   onSocialClick(event: Event, link: SocialLink): void {
-    if (this.editMode.isEditMode()) {
+    if (this.isEditMode) {
       event.preventDefault();
       const newUrl = prompt('Qual a nova URL do seu LinkedIn?', link.url);
       if (newUrl !== null && newUrl !== link.url) {

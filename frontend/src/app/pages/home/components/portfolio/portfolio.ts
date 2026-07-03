@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { Project } from '../../../../core/services/projects';
 import { InlineEditor } from '../../../../shared/components/inline-editor/inline-editor';
 import { ImageUploader } from '../../../../shared/components/image-uploader/image-uploader';
-import { EditMode } from '../../../../core/services/edit-mode';
 import { Output, EventEmitter } from '@angular/core';
 import { ConfirmDialog } from '../../../../shared/components/confirm-dialog/confirm-dialog';
 import { ProjectForm } from '../../../../shared/components/project-form/project-form';
@@ -18,6 +17,7 @@ import { PromptDialog } from '../../../../shared/components/prompt-dialog/prompt
 })
 export class Portfolio {
   @Input({ required: true }) projects: Project[] = [];
+  @Input() isEditMode: boolean = false;
 
   @Output() projectUpdate = new EventEmitter<Project>();
   @Output() projectDelete = new EventEmitter<number>();
@@ -45,11 +45,7 @@ export class Portfolio {
     linkType: null
   };
 
-  constructor(private editMode: EditMode) {}
-
-  get isEditMode(): boolean {
-    return this.editMode.isEditMode();
-  }
+  constructor() {}
 
   onProjectUpdate(project: Project, field: keyof Project, value: string): void {
     const updated = { ...project, [field]: value };

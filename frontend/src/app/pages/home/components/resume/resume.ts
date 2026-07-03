@@ -2,7 +2,6 @@ import { Component, Input, Output, EventEmitter, signal, computed } from '@angul
 import { CommonModule } from '@angular/common';
 import { Skill, SkillCategory } from '../../../../core/services/skills';
 import { InlineEditor } from '../../../../shared/components/inline-editor/inline-editor';
-import { EditMode } from '../../../../core/services/edit-mode';
 import { ConfirmDialog } from '../../../../shared/components/confirm-dialog/confirm-dialog';
 import { SkillForm } from '../../../../shared/components/skill-form/skill-form';
 
@@ -17,6 +16,7 @@ export class Resume {
   @Input({ required: true }) softSkills: Skill[] = [];
   @Input({ required: true }) hardSkills: Skill[] = [];
   @Input({ required: true }) badges: Skill[] = [];
+  @Input() isEditMode: boolean = false;
 
   @Output() skillUpdate = new EventEmitter<Skill>();
   @Output() skillDelete = new EventEmitter<number>();
@@ -28,11 +28,7 @@ export class Resume {
   isAddingSkill = false;
   selectedCategory: SkillCategory = SkillCategory.Soft;
 
-  constructor(private editMode: EditMode) {}
-
-  get isEditMode(): boolean {
-    return this.editMode.isEditMode();
-  }
+  constructor() {}
 
   onSkillUpdate(skill: Skill, field: keyof Skill, value: string): void {
     const updated = { ...skill, [field]: value };

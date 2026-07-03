@@ -4,6 +4,7 @@ import { Profile, ProfileService } from '../../core/services/profile';
 import { Skill, SkillCategory, SkillsService } from '../../core/services/skills';
 import { Project, ProjectsService } from '../../core/services/projects';
 import { SocialLink, SocialLinksService } from '../../core/services/social-links';
+import { ContactService, ContactMessageDto } from '../../core/services/contact';
 import { EditMode } from '../../core/services/edit-mode';
 
 import { Hero } from './components/hero/hero';
@@ -25,6 +26,7 @@ export class Home implements OnInit {
   skills = signal<Skill[]>([]);
   projects = signal<Project[]>([]);
   socialLinks = signal<SocialLink[]>([]);
+  contactStatus = signal<'idle' | 'sending' | 'error'>('idle');
 
   softSkills = computed(() =>
     this.skills()
@@ -49,6 +51,7 @@ export class Home implements OnInit {
     private skillsService: SkillsService,
     private projectsService: ProjectsService,
     private socialLinksService: SocialLinksService,
+    private contactService: ContactService,
     private editMode: EditMode,
   ) {}
 
@@ -113,6 +116,17 @@ export class Home implements OnInit {
   onProjectCreate(newProject: Project): void {
     this.projectsService.create(newProject).subscribe((created) => {
       this.projects.update((projects) => [...projects, created]);
+    });
+  }
+
+  onSendMessage(message: ContactMessageDto): void {
+    this.contactStatus.set('sending');
+    this.contactService.sendMessage(message).subscribe({
+      next: () => this.contactStatus.set('idle'),
+      error: (err) => {
+        console.error('Error sending message:', err);
+        this.contactStatus.set('error');
+      }
     });
   }
 }
