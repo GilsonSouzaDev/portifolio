@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Portfolio.API.Data;
-using Portfolio.API.Models;
+using Microsoft.AspNetCore.Mvc;
+using Portfolio.API.DTOs;
+using Portfolio.API.Services.Interfaces;
 
 namespace Portfolio.API.Controllers;
 
@@ -9,17 +8,17 @@ namespace Portfolio.API.Controllers;
 [Route("api/profile")]
 public class ProfileController : ControllerBase
 {
-    private readonly AppDbContext _context;
+    private readonly IProfileService _profileService;
 
-    public ProfileController(AppDbContext context)
+    public ProfileController(IProfileService profileService)
     {
-        _context = context;
+        _profileService = profileService;
     }
 
     [HttpGet]
     public async Task<IActionResult> Get()
     {
-        var profile = await _context.Profiles.FirstOrDefaultAsync();
+        var profile = await _profileService.GetProfileAsync();
 
         if (profile == null)
             return NotFound(new { message = "Perfil não encontrado." });
@@ -28,21 +27,12 @@ public class ProfileController : ControllerBase
     }
 
     [HttpPut]
-    public async Task<IActionResult> Update([FromBody] Profile updated)
+    public async Task<IActionResult> Update([FromBody] UpdateProfileRequest updated)
     {
-        var profile = await _context.Profiles.FirstOrDefaultAsync();
+        var profile = await _profileService.UpdateProfileAsync(updated);
 
         if (profile == null)
             return NotFound(new { message = "Perfil não encontrado." });
-
-        profile.Name = updated.Name;
-        profile.Title = updated.Title;
-        profile.Bio = updated.Bio;
-        profile.AvatarUrl = updated.AvatarUrl;
-        profile.ResumeUrl = updated.ResumeUrl;
-        profile.UpdatedAt = DateTime.UtcNow;
-
-        await _context.SaveChangesAsync();
 
         return Ok(profile);
     }
