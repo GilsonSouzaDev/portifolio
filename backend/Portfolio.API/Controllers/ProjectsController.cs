@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Portfolio.API.Data;
-using Portfolio.API.Models;
+using Microsoft.AspNetCore.Mvc;
+using Portfolio.API.DTOs;
+using Portfolio.API.Services.Interfaces;
 
 namespace Portfolio.API.Controllers;
 
@@ -9,71 +8,46 @@ namespace Portfolio.API.Controllers;
 [Route("api/projects")]
 public class ProjectsController : ControllerBase
 {
-    private readonly AppDbContext _context;
+    private readonly IProjectsService _projectsService;
 
-    public ProjectsController(AppDbContext context)
+    public ProjectsController(IProjectsService projectsService)
     {
-        _context = context;
+        _projectsService = projectsService;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var projects = await _context.Projects
-            .OrderBy(p => p.DisplayOrder)
-            .ToListAsync();
+        var projects = await _projectsService.GetAllProjectsAsync();
         return Ok(projects);
     }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetById(int id)
-    {
-        var project = await _context.Projects.FindAsync(id);
-        if (project == null)
-            return NotFound(new { message = "Projeto não encontrado." });
-        return Ok(project);
-    }
-
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] Project project)
+    public async Task<IActionResult> Create([FromBody] CreateOrUpdateProjectRequest projectRequest)
     {
-        project.CreatedAt = DateTime.UtcNow;
-        project.UpdatedAt = DateTime.UtcNow;
-        _context.Projects.Add(project);
-        await _context.SaveChangesAsync();
-        return CreatedAtAction(nameof(GetById), new { id = project.Id }, project);
+        var project = await _projectsService.CreateProjectAsync(projectRequest);
+        return CreatedAtAction(nameof(GetAll), new { id = project.Id }, project);
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, [FromBody] Project updated)
+    public async Task<IActionResult> Update(int id, [FromBody] CreateOrUpdateProjectRequest projectRequest)
     {
-        var project = await _context.Projects.FindAsync(id);
+        var project = await _projectsService.UpdateProjectAsync(id, projectRequest);
+
         if (project == null)
             return NotFound(new { message = "Projeto não encontrado." });
 
-        project.Title = updated.Title;
-        project.Description = updated.Description;
-        project.ThumbnailUrl = updated.ThumbnailUrl;
-        project.ProjectUrl = updated.ProjectUrl;
-        project.RepositoryUrl = updated.RepositoryUrl;
-        project.Technologies = updated.Technologies;
-        project.Featured = updated.Featured;
-        project.DisplayOrder = updated.DisplayOrder;
-        project.UpdatedAt = DateTime.UtcNow;
-
-        await _context.SaveChangesAsync();
         return Ok(project);
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
     {
-        var project = await _context.Projects.FindAsync(id);
-        if (project == null)
+        var result = await _projectsService.DeleteProjectAsync(id);
+
+        if (!result)
             return NotFound(new { message = "Projeto não encontrado." });
 
-        _context.Projects.Remove(project);
-        await _context.SaveChangesAsync();
         return NoContent();
     }
 }

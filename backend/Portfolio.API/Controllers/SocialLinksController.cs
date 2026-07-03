@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Portfolio.API.Data;
-using Portfolio.API.Models;
+using Portfolio.API.DTOs;
+using Portfolio.API.Services.Interfaces;
 
 namespace Portfolio.API.Controllers;
 
@@ -9,46 +8,46 @@ namespace Portfolio.API.Controllers;
 [Route("api/social-links")]
 public class SocialLinksController : ControllerBase
 {
-    private readonly AppDbContext _context;
+    private readonly ISocialLinksService _socialLinksService;
 
-    public SocialLinksController(AppDbContext context)
+    public SocialLinksController(ISocialLinksService socialLinksService)
     {
-        _context = context;
+        _socialLinksService = socialLinksService;
     }
 
     [HttpGet]
     public async Task<IActionResult> GetAll()
     {
-        var links = await _context.SocialLinks
-            .OrderBy(s => s.DisplayOrder)
-            .ToListAsync();
-        return Ok(links);
-    }
-
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Update(int id, [FromBody] SocialLink updated)
-    {
-        var link = await _context.SocialLinks.FindAsync(id);
-        if (link == null)
-            return NotFound(new { message = "Link social não encontrado." });
-
-        link.Platform = updated.Platform;
-        link.Url = updated.Url;
-        link.IconUrl = updated.IconUrl;
-        link.DisplayOrder = updated.DisplayOrder;
-        link.UpdatedAt = DateTime.UtcNow;
-
-        await _context.SaveChangesAsync();
-        return Ok(link);
+        var socialLinks = await _socialLinksService.GetAllSocialLinksAsync();
+        return Ok(socialLinks);
     }
 
     [HttpPost]
-    public async Task<IActionResult> Create([FromBody] SocialLink newLink)
+    public async Task<IActionResult> Create([FromBody] CreateOrUpdateSocialLinkRequest socialLinkRequest)
     {
-        newLink.CreatedAt = DateTime.UtcNow;
-        newLink.UpdatedAt = DateTime.UtcNow;
-        _context.SocialLinks.Add(newLink);
-        await _context.SaveChangesAsync();
-        return CreatedAtAction(nameof(GetAll), new { id = newLink.Id }, newLink);
+        var socialLink = await _socialLinksService.CreateSocialLinkAsync(socialLinkRequest);
+        return CreatedAtAction(nameof(GetAll), new { id = socialLink.Id }, socialLink);
+    }
+
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Update(int id, [FromBody] CreateOrUpdateSocialLinkRequest socialLinkRequest)
+    {
+        var socialLink = await _socialLinksService.UpdateSocialLinkAsync(id, socialLinkRequest);
+
+        if (socialLink == null)
+            return NotFound(new { message = "Link social não encontrado." });
+
+        return Ok(socialLink);
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var result = await _socialLinksService.DeleteSocialLinkAsync(id);
+
+        if (!result)
+            return NotFound(new { message = "Link social não encontrado." });
+
+        return NoContent();
     }
 }
