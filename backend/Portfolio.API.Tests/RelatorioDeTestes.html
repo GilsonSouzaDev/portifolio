@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Relatório de Testes do Backend</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; color: #333; line-height: 1.6; }
+        h1 { color: #0056b3; }
+        h2 { color: #004494; border-bottom: 1px solid #ccc; padding-bottom: 5px; }
+        ul { margin-bottom: 20px; }
+        li { margin-bottom: 10px; }
+        strong { color: #111; }
+    </style>
+</head>
+<body>
+
+    <h1>Relatório de Testes do Backend (API)</h1>
+    <p>Este documento detalha as suítes de testes unitários criadas para o backend do Portfólio, focando na camada de serviços (Services). Foram utilizadas as bibliotecas <code>xUnit</code>, <code>Moq</code> e o provedor <code>InMemoryDatabase</code> do Entity Framework Core.</p>
+
+    <h2>1. ProjectsServiceTests</h2>
+    <p>Este arquivo testa as regras de negócio para as operações relacionadas a Projetos.</p>
+    <ul>
+        <li><strong>GetAllProjectsAsync_ShouldReturnSortedProjects:</strong> Verifica se os projetos são retornados do banco de dados ordenados pela propriedade <code>DisplayOrder</code>.</li>
+        <li><strong>CreateProjectAsync_ShouldAddProject:</strong> Valida se a criação de um projeto insere o novo registro no banco de dados e retorna o DTO correto.</li>
+        <li><strong>UpdateProjectAsync_ShouldModifyProject:</strong> Garante que a atualização de um projeto existente modifica seus dados no banco e retorna a versão atualizada.</li>
+        <li><strong>UpdateProjectAsync_ShouldReturnNull_WhenNotExists:</strong> Assegura que tentar atualizar um projeto com ID inexistente retorna <code>null</code>.</li>
+        <li><strong>DeleteProjectAsync_ShouldRemoveProject_AndReturnTrue:</strong> Testa a remoção bem-sucedida de um projeto e a confirmação (<code>true</code>).</li>
+        <li><strong>DeleteProjectAsync_ShouldReturnFalse_WhenNotExists:</strong> Verifica se a tentativa de excluir um ID inválido retorna <code>false</code>.</li>
+    </ul>
+
+    <h2>2. SkillsServiceTests</h2>
+    <p>Avalia o comportamento das operações de gerenciamento de Habilidades.</p>
+    <ul>
+        <li><strong>GetAllSkillsAsync_ShouldReturnSortedSkills:</strong> Semelhante a Projetos, mas focado na ordenação correta das habilidades.</li>
+        <li><strong>CreateSkillAsync_ShouldAddSkill:</strong> Testa a adição de um novo registro na tabela <code>Skills</code>.</li>
+        <li><strong>UpdateSkillAsync_ShouldModifySkill:</strong> Garante que os campos modificados de uma habilidade sejam refletidos no banco de dados corretamente.</li>
+        <li><strong>UpdateSkillAsync_ShouldReturnNull_WhenNotExists:</strong> Trata o cenário de atualização de um registro inexistente (retorna <code>null</code>).</li>
+        <li><strong>DeleteSkillAsync_ShouldRemoveSkill:</strong> Valida se a exclusão remove fisicamente o registro (esperado <code>true</code>).</li>
+        <li><strong>DeleteSkillAsync_ShouldReturnFalse_WhenNotExists:</strong> Confirma o comportamento de exclusão com falha segura (<code>false</code>).</li>
+    </ul>
+
+    <h2>3. SocialLinksServiceTests</h2>
+    <p>Testa as operações de Links Sociais (GitHub, LinkedIn, etc.).</p>
+    <ul>
+        <li><strong>GetAllLinksAsync_ShouldReturnSortedLinks:</strong> Garante a ordenação pela ordem de exibição (<code>DisplayOrder</code>).</li>
+        <li><strong>CreateLinkAsync_ShouldAddLink:</strong> Valida a persistência de um novo link.</li>
+        <li><strong>UpdateLinkAsync_ShouldModifyLink:</strong> Verifica se as alterações de plataforma ou URL são aplicadas com sucesso.</li>
+        <li><strong>UpdateLinkAsync_ShouldReturnNull_WhenNotExists:</strong> Garante tratamento seguro para IDs inexistentes (retorna <code>null</code>).</li>
+        <li><strong>DeleteLinkAsync_ShouldRemoveLink:</strong> Checa se o registro é removido corretamente (<code>true</code>).</li>
+        <li><strong>DeleteLinkAsync_ShouldReturnFalse_WhenNotExists:</strong> Valida a recusa ao tentar remover o que não existe (<code>false</code>).</li>
+    </ul>
+
+    <h2>4. ContactServiceTests</h2>
+    <p>Este serviço possui uma arquitetura diferente, pois depende do envio de emails. Foi utilizado a biblioteca <code>Moq</code> para "simular" o envio de e-mails, sem enviar de verdade durante a bateria de testes.</p>
+    <ul>
+        <li><strong>SendMessageAsync_ShouldReturnSuccess_WhenEmailSent:</strong> 
+            <ul>
+                <li><strong>O que testa:</strong> Injeta um envio de e-mail falso (<code>Mock</code>) que sempre tem sucesso.</li>
+                <li><strong>Verificação:</strong> Checa se a função <code>SendEmailAsync</code> foi chamada exatamente 1 vez com os parâmetros corretos (Nome, Assunto, Mensagem) e garante que o método principal retorne <code>true</code>. Além disso, garante que a mensagem foi persistida no banco local.</li>
+            </ul>
+        </li>
+        <li><strong>SendMessageAsync_ShouldReturnFalse_WhenExceptionThrown:</strong>
+            <ul>
+                <li><strong>O que testa:</strong> Configura o Mock do provedor de E-mail para forçar um erro (simulando falha de SMTP).</li>
+                <li><strong>Verificação:</strong> Garante que o serviço capture o erro de envio sem falhar a aplicação e retorne <code>false</code>.</li>
+            </ul>
+        </li>
+    </ul>
+
+    <h2>5. ProfileServiceTests (Legado)</h2>
+    <p>Os testes originais do perfil, mantidos e aprovados.</p>
+    <ul>
+        <li><strong>GetProfileAsync_ShouldReturnNull_WhenProfileDoesNotExist:</strong> Verifica se o perfil principal não existe e não retorna nada.</li>
+        <li><strong>GetProfileAsync_ShouldReturnProfile_WhenItExists:</strong> Testa o retorno do perfil quando há cadastro.</li>
+        <li><strong>UpdateProfileAsync_ShouldUpdate_AndReturnProfileDto:</strong> Atualiza dados do perfil.</li>
+    </ul>
+
+</body>
+</html>

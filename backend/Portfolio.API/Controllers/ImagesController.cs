@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Portfolio.API.Controllers;
 
@@ -8,11 +8,13 @@ public class ImagesController : ControllerBase
 {
     private readonly IWebHostEnvironment _env;
     private readonly IConfiguration _configuration;
+    private readonly IHttpClientFactory _httpClientFactory;
 
-    public ImagesController(IWebHostEnvironment env, IConfiguration configuration)
+    public ImagesController(IWebHostEnvironment env, IConfiguration configuration, IHttpClientFactory httpClientFactory)
     {
         _env = env;
         _configuration = configuration;
+        _httpClientFactory = httpClientFactory;
     }
 
     [HttpPost("upload")]
@@ -50,7 +52,7 @@ public class ImagesController : ControllerBase
         if (string.IsNullOrEmpty(apiKey))
             return StatusCode(500, new { message = "API Key do remove.bg não configurada." });
 
-        using var httpClient = new HttpClient();
+        using var httpClient = _httpClientFactory.CreateClient("RemoveBgClient");
         httpClient.DefaultRequestHeaders.Add("X-Api-Key", apiKey);
 
         using var content = new MultipartFormDataContent();

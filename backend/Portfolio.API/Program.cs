@@ -41,6 +41,7 @@ builder.Services.AddCors(options =>
 
 builder.Services.AddOpenApi();
 builder.Services.AddControllers();
+builder.Services.AddHttpClient();
 
 var app = builder.Build();
 
@@ -61,3 +62,5 @@ app.UseHttpsRedirection();
 app.MapControllers();
 
 app.Run();
+[System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
+public partial class Program { }

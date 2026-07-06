@@ -1,7 +1,10 @@
 using Portfolio.API.Models;
 
+using System.Diagnostics.CodeAnalysis;
+
 namespace Portfolio.API.Data;
 
+[ExcludeFromCodeCoverage]
 public static class DataSeeder
 {
     public static void Seed(AppDbContext context)
