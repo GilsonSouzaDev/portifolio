@@ -14,7 +14,7 @@ export interface SocialLink {
   providedIn: 'root',
 })
 export class SocialLinksService {
-  private apiUrl = 'http://localhost:5217/api/social-links';
+  private apiUrl = '/api/social-links';
 
   constructor(private http: HttpClient) {}
 

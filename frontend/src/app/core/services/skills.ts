@@ -22,7 +22,7 @@ export interface Skill {
   providedIn: 'root',
 })
 export class SkillsService {
-  private apiUrl = 'http://localhost:5217/api/skills';
+  private apiUrl = '/api/skills';
 
   constructor(private http: HttpClient) {}
 

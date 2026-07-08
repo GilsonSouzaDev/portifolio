@@ -14,7 +14,7 @@ export interface ContactMessageDto {
 })
 export class ContactService {
   private http = inject(HttpClient);
-  private apiUrl = 'http://localhost:5217/api/contact';
+  private apiUrl = '/api/contact';
 
   sendMessage(message: ContactMessageDto): Observable<any> {
     return this.http.post(this.apiUrl, message);

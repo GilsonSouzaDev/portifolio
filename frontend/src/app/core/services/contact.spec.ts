@@ -39,7 +39,7 @@ describe('ContactService', () => {
       expect(response).toBeTruthy();
     });
 
-    const req = httpMock.expectOne('http://localhost:5217/api/contact');
+    const req = httpMock.expectOne('/api/contact');
     expect(req.request.method).toBe('POST');
     expect(req.request.body).toEqual(mockMessage);
     req.flush({ message: 'Mensagem enviada com sucesso.' });
