@@ -23,6 +23,7 @@ services:
     volumes:
       # Wallet da Oracle montada da VM para dentro do container (SEGURO - nunca vai ao GitHub)
       - /opt/oracle-wallet:/app/oracle-wallet:ro
+      - ./wwwroot:/app/wwwroot
     networks:
       - portfolio-net
     expose:
