@@ -1,0 +1,20 @@
+<div class="image-uploader" [class.edit-mode]="isEditMode">
+  <div class="image-wrapper" [ngClass]="shape">
+    @if (imageUrl) {
+      <img [src]="imageUrl" alt="Avatar" class="preview" />
+    } @else {
+      <div class="placeholder"></div>
+    }
+  </div>
+
+  @if (isEditMode) {
+    <label class="upload-button">
+      @if (uploading) { Enviando... } @else { Trocar imagem }
+      <input type="file" accept="image/jpeg,image/png,image/webp" (change)="onFileSelected($event)" hidden />
+    </label>
+  }
+
+  @if (error) {
+    <div class="error-message">{{ error }}</div>
+  }
+</div>

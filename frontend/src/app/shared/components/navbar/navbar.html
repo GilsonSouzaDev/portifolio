@@ -1,0 +1,21 @@
+<header class="navbar">
+  <span class="logo">GILSON</span>
+
+  <nav class="nav-links desktop-only">
+    @for (link of links; track link.href) {
+      <a [href]="link.href">{{ link.label }}</a>
+    }
+  </nav>
+
+  <button class="menu-toggle mobile-only" (click)="toggleMenu()">☰</button>
+</header>
+
+@if (menuOpen()) {
+  <div class="drawer-overlay" (click)="closeMenu()"></div>
+  <nav class="drawer">
+    <button class="drawer-close" (click)="closeMenu()">✕</button>
+    @for (link of links; track link.href) {
+      <a [href]="link.href" (click)="closeMenu()">{{ link.label }}</a>
+    }
+  </nav>
+}

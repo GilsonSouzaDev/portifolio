@@ -1,0 +1,30 @@
+@use '../../../scss/breakpoints' as *;
+
+.home-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.end-of-page-lock {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+  min-height: calc(100vh - var(--header-offset));
+}
+
+@include sm {
+  .home-container {
+    gap: var(--spacing-md);
+
+    > *:not(:last-child) {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding-bottom: var(--spacing-sm);
+    }
+  }
+
+  .end-of-page-lock {
+    gap: var(--spacing-md);
+  }
+}

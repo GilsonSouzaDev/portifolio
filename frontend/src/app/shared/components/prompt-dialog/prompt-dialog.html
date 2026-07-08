@@ -1,0 +1,12 @@
+<app-modal [title]="title" (close)="onCancel()">
+  <div class="prompt-content">
+    <p>{{ message }}</p>
+    <div class="form-group">
+      <input type="text" [(ngModel)]="value" autofocus (keyup.enter)="onConfirm()" />
+    </div>
+    <div class="prompt-actions">
+      <button class="btn-cancel" (click)="onCancel()">{{ cancelText }}</button>
+      <button class="btn-confirm" (click)="onConfirm()">{{ confirmText }}</button>
+    </div>
+  </div>
+</app-modal>

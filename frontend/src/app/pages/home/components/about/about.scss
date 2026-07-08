@@ -1,0 +1,72 @@
+@use '../../../../../scss/breakpoints' as *;
+
+.about {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--spacing-sm);
+  align-items: stretch;
+
+  .about-text-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--font-size-sm);
+    background: var(--color-bg-card);
+    border-radius: var(--border-radius-md);
+    padding: 3rem;
+    min-height: 280px;
+
+    .label {
+      color: var(--color-primary);
+      font-size: var(--font-size-xl);
+      font-weight: 500;
+      font-family: var(--font-body);
+    }
+
+    h3 {
+      font-family: var(--font-heading);
+      font-weight: 700;
+      font-size: var(--font-size-max);
+      margin: 0;
+      line-height: 1.25;
+      color: var(--color-text);
+    }
+
+    p {
+      color: var(--color-text-muted);
+      font-family: var(--font-body);
+      font-weight: 300;
+      line-height: 1.6;
+      font-size: var(--font-size-sm);
+      margin: 0;
+    }
+  }
+
+  .about-image-card {
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+  }
+}
+
+@include sm {
+  .about {
+    grid-template-columns: 1fr;
+    padding: var(--spacing-lg) 0;
+    background: transparent;
+
+    .about-text-card {
+      background: transparent;
+      padding: 0;
+    }
+
+    .about-image-card {
+      order: 1;
+    }
+  }
+}

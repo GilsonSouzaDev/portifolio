@@ -1,0 +1,7 @@
+<button class="edit-button" [class.active]="isEditMode" (click)="toggle()">
+  @if (isEditMode) {
+    <span class="icon">✓</span>
+  } @else {
+    <span class="icon">⚙️</span>
+  }
+</button>

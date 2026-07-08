@@ -1,0 +1,21 @@
+@if (isEditMode) {
+  @if (multiline) {
+    <textarea
+      [(ngModel)]="draft"
+      (blur)="save()"
+      (keyup.escape)="cancel()"
+      placeholder="Digite o texto..."
+    ></textarea>
+  } @else {
+    <input
+      type="text"
+      [(ngModel)]="draft"
+      (blur)="save()"
+      (keyup.enter)="save()"
+      (keyup.escape)="cancel()"
+      placeholder="Digite o texto..."
+    />
+  }
+} @else {
+  <span class="editable-text">{{ value }}</span>
+}

@@ -1,0 +1,127 @@
+<section class="resume" id="resumo">
+  <h3 class="section-title">Resumo</h3>
+
+  <div class="carousel-wrapper">
+    @if (activeSlide() === 0 || activeSlide() === 1) {
+      <div class="resume-grid">
+        <div class="resume-profile-text">
+          <span class="label">Perfil Profissional</span>
+          <h4>Foco em evolução constante e soluções colaborativas.</h4>
+          <p class="soft-skills-heading">{{ activeHeading() }}</p>
+        </div>
+
+        <div class="carousel-container">
+          <div class="scroll-wrapper">
+            <div class="skills-timeline">
+              @for (skill of currentSkills; track skill.id) {
+                <div class="timeline-item">
+                  <div class="timeline-marker"></div>
+                  <div class="timeline-content">
+                    <h5>
+                      <app-inline-editor
+                        [value]="skill.name"
+                        (valueChange)="onSkillUpdate(skill, 'name', $event)"
+                      />
+                      @if (isEditMode) {
+                        <button class="delete-btn" (click)="requestSkillDelete(skill.id)" title="Deletar habilidade">🗑️</button>
+                      }
+                    </h5>
+                    <p>
+                      <app-inline-editor
+                        [value]="skill.description"
+                        [multiline]="true"
+                        (valueChange)="onSkillUpdate(skill, 'description', $event)"
+                      />
+                    </p>
+                  </div>
+                </div>
+              }
+              @if (isEditMode) {
+                <div class="timeline-item add-item">
+                  <div class="timeline-marker add-marker"></div>
+                  <div class="timeline-content">
+                    <button class="add-btn" (click)="openSkillForm()">+ Adicionar Habilidade</button>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+          <div class="scroll-indicator" aria-hidden="true">↓</div>
+        </div>
+      </div>
+    }
+
+    @if (activeSlide() === 2) {
+      <div class="badges-container">
+        @if (badges.length === 0) {
+          <div class="empty-badges">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="empty-icon">
+              <circle cx="12" cy="8" r="7"></circle>
+              <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"></polyline>
+            </svg>
+            <p>Nenhum badge adicionado ainda.</p>
+            @if (isEditMode) {
+              <button class="add-btn" (click)="openSkillForm()">+ Adicionar Badge</button>
+            }
+          </div>
+        } @else {
+          <div class="badges-grid">
+            @for (badge of badges; track badge.id) {
+              <div class="badge-card">
+                @if (isEditMode) {
+                  <button class="delete-badge-btn" (click)="requestSkillDelete(badge.id)" title="Deletar badge">&times;</button>
+                }
+                @if (badge.iconUrl) {
+                  <img [src]="badge.iconUrl" [alt]="badge.name" />
+                }
+                <span>
+                  <app-inline-editor
+                    [value]="badge.name"
+                    (valueChange)="onSkillUpdate(badge, 'name', $event)"
+                  />
+                </span>
+              </div>
+            }
+            @if (isEditMode) {
+              <div class="badge-card add-badge-card" (click)="openSkillForm()">
+                <div class="add-icon">+</div>
+                <span>Adicionar Badge</span>
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+
+    <div class="carousel-navigation">
+      <button type="button" class="nav-arrow" (click)="prevSlide()" aria-label="Anterior">&lsaquo;</button>
+      
+      <div class="pagination-dots">
+        <button type="button" class="dot" [class.active]="activeSlide() === 0" (click)="setSlide(0)" aria-label="Soft Skills"></button>
+        <button type="button" class="dot" [class.active]="activeSlide() === 1" (click)="setSlide(1)" aria-label="Hard Skills"></button>
+        <button type="button" class="dot" [class.active]="activeSlide() === 2" (click)="setSlide(2)" aria-label="Badges"></button>
+      </div>
+
+      <button type="button" class="nav-arrow" (click)="nextSlide()" aria-label="Próximo">&rsaquo;</button>
+    </div>
+  </div>
+</section>
+
+@if (skillToDelete !== null) {
+  <app-confirm-dialog
+    title="Excluir Habilidade"
+    message="Tem certeza que deseja excluir esta habilidade definitivamente?"
+    confirmText="Excluir"
+    cancelText="Cancelar"
+    (confirm)="confirmSkillDelete()"
+    (cancel)="cancelSkillDelete()"
+  />
+}
+
+@if (isAddingSkill) {
+  <app-skill-form
+    [category]="selectedCategory"
+    (save)="saveNewSkill($event)"
+    (cancel)="cancelSkillForm()"
+  />
+}

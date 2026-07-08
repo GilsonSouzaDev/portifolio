@@ -1,0 +1,44 @@
+import { Component, Input, Output, EventEmitter, OnInit, OnChanges } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { EditMode } from '../../../core/services/edit-mode';
+
+@Component({
+  selector: 'app-inline-editor',
+  standalone: true,
+  imports: [CommonModule, FormsModule],
+  templateUrl: './inline-editor.html',
+  styleUrl: './inline-editor.scss',
+})
+export class InlineEditor implements OnInit, OnChanges {
+  @Input() value = '';
+  @Input() multiline = false;
+  @Output() valueChange = new EventEmitter<string>();
+
+  draft = '';
+
+  constructor(private editMode: EditMode) {}
+
+  ngOnInit() {
+    this.draft = this.value;
+  }
+
+  ngOnChanges() {
+    this.draft = this.value;
+  }
+
+  get isEditMode(): boolean {
+    return this.editMode.isEditMode();
+  }
+
+  save(): void {
+    if (this.draft !== this.value) {
+      this.value = this.draft;
+      this.valueChange.emit(this.draft);
+    }
+  }
+
+  cancel(): void {
+    this.draft = this.value;
+  }
+}

@@ -1,0 +1,28 @@
+.editable-text {
+  display: inline;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+
+}
+
+input,
+textarea {
+  width: 100%;
+  background: var(--color-bg-input);
+  border: 1px solid var(--color-primary);
+  border-radius: var(--border-radius-sm);
+  color: var(--color-text);
+  font-family: inherit;
+  font-size: inherit;
+  padding: var(--spacing-xs) var(--spacing-sm);
+
+  &:focus {
+    outline: none;
+  }
+}
+
+textarea {
+  min-height: 80px;
+  resize: vertical;
+}

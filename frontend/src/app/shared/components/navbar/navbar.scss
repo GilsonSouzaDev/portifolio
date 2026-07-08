@@ -1,0 +1,125 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 0.75rem var(--spacing-lg);
+  background: var(--color-bg-secondary);
+  border-radius: var(--border-radius-nav);
+}
+
+.logo {
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-size: 1.4rem;
+  color: var(--color-primary);
+  letter-spacing: 0.05em;
+}
+
+.nav-links {
+  display: flex;
+  gap: var(--spacing-lg);
+
+  a {
+    color: var(--color-text);
+    text-decoration: none;
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--font-size-sm);
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: var(--color-primary);
+    }
+  }
+}
+
+.menu-toggle {
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  font-size: var(--font-size-xl);
+  cursor: pointer;
+  line-height: 1;
+}
+
+.desktop-only {
+  display: flex;
+}
+
+.mobile-only {
+  display: none;
+}
+
+.drawer-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 1100;
+}
+
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 280px;
+  background: var(--color-bg-secondary);
+  border-left: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  padding: var(--spacing-lg);
+  gap: 0;
+  z-index: 1200;
+
+  a {
+    color: var(--color-text);
+    text-decoration: none;
+    font-family: var(--font-body);
+    font-weight: 400;
+    font-size: var(--font-size-md);
+    padding: var(--spacing-md) 0;
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: color 0.2s ease;
+
+    &::after {
+      content: '›';
+      color: var(--color-text-subtle);
+    }
+
+    &:hover,
+    &.active {
+      color: var(--color-primary);
+    }
+  }
+}
+
+.drawer-close {
+  background: none;
+  border: none;
+  color: var(--color-text);
+  font-size: var(--font-size-lg);
+  cursor: pointer;
+  align-self: flex-end;
+  margin-bottom: var(--spacing-md);
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    background: var(--color-bg);
+    padding: 1rem var(--spacing-md);
+    border-bottom: 1px solid var(--color-border);
+    border-radius: 0;
+  }
+
+  .desktop-only {
+    display: none;
+  }
+
+  .mobile-only {
+    display: block;
+  }
+}

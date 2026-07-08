@@ -1,0 +1,44 @@
+<app-modal [title]="'Novo Projeto'" (close)="onCancel()">
+  <div class="form-content">
+    <div class="form-group">
+      <label for="projectTitle">Título do Projeto *</label>
+      <input type="text" id="projectTitle" [(ngModel)]="projectData.title" placeholder="Ex: E-commerce Angular" autofocus />
+    </div>
+
+    <div class="form-group">
+      <label>Imagem de Capa</label>
+      <app-image-uploader
+        shape="rectangle"
+        [imageUrl]="projectData.thumbnailUrl || ''"
+        (imageUrlChange)="projectData.thumbnailUrl = $event"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="projectTechs">Tecnologias (separadas por vírgula)</label>
+      <input type="text" id="projectTechs" [(ngModel)]="projectData.technologies" placeholder="Angular, TypeScript, SCSS" />
+    </div>
+
+    <div class="form-group">
+      <label for="projectDesc">Descrição</label>
+      <textarea id="projectDesc" [(ngModel)]="projectData.description" placeholder="Breve descrição do projeto..." rows="4"></textarea>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label for="projectRepo">Link do Repositório (GitHub)</label>
+        <input type="url" id="projectRepo" [(ngModel)]="projectData.repositoryUrl" placeholder="https://github.com/..." />
+      </div>
+
+      <div class="form-group">
+        <label for="projectDemo">Link de Demonstração (Live)</label>
+        <input type="url" id="projectDemo" [(ngModel)]="projectData.projectUrl" placeholder="https://..." />
+      </div>
+    </div>
+
+    <div class="form-actions">
+      <button type="button" class="btn-cancel" (click)="onCancel()">Cancelar</button>
+      <button type="button" class="btn-save" (click)="onSave()">Salvar Projeto</button>
+    </div>
+  </div>
+</app-modal>

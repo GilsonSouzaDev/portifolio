@@ -1,0 +1,60 @@
+@use '../../../../../scss/breakpoints' as *;
+
+.site-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: var(--color-bg-secondary);
+  border-radius: var(--border-radius-nav);
+  padding: var(--spacing-md) var(--spacing-lg);
+  flex-wrap: wrap;
+  gap: var(--spacing-md);
+
+  .footer-brand {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .footer-logo {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: var(--font-size-sm);
+    color: var(--color-primary);
+    letter-spacing: 0.05em;
+  }
+
+  .footer-role {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-subtle);
+    font-family: var(--font-body);
+    font-weight: 400;
+  }
+
+  .footer-copy {
+    font-size: var(--font-size-xs);
+    color: var(--color-text-subtle);
+    font-family: var(--font-body);
+    font-weight: 400;
+  }
+
+  .footer-actions {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+  }
+}
+
+@include sm {
+  .site-footer {
+    flex-direction: column;
+    gap: var(--spacing-sm);
+    text-align: center;
+    padding: var(--spacing-md);
+
+    .footer-actions {
+      justify-content: center;
+      margin-top: 0;
+    }
+  }
+}

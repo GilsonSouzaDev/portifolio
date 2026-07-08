@@ -1,0 +1,49 @@
+<div class="home-container">
+  @if (profile()) {
+    <app-hero
+      [profile]="profile()!"
+      [linkedInLink]="linkedInLink()"
+      [isEditMode]="isEditMode"
+      (profileFieldChange)="onProfileFieldChange($event.field, $event.value)"
+      (avatarChange)="onAvatarChange($event)"
+      (socialLinkChange)="onSocialLinkUpdate($event)"
+    />
+    <app-about
+      [profile]="profile()!"
+      (profileFieldChange)="onProfileFieldChange($event.field, $event.value)"
+    />
+  }
+
+  @if (skills().length > 0) {
+    <app-resume
+      [softSkills]="softSkills()"
+      [hardSkills]="hardSkills()"
+      [badges]="badges()"
+      [isEditMode]="isEditMode"
+      (skillUpdate)="onSkillUpdate($event)"
+      (skillDelete)="onSkillDelete($event)"
+      (skillCreate)="onSkillCreate($event)"
+    />
+  }
+
+  @if (projects().length > 0 || isEditMode) {
+    <app-portfolio
+      [projects]="projects()"
+      [isEditMode]="isEditMode"
+      (projectUpdate)="onProjectUpdate($event)"
+      (projectDelete)="onProjectDelete($event)"
+      (projectCreate)="onProjectCreate($event)"
+    />
+  }
+
+  <div class="end-of-page-lock">
+    <app-contact
+      [profile]="profile()"
+      [socialLinks]="socialLinks()"
+      [status]="contactStatus()"
+      (sendMessage)="onSendMessage($event)"
+    />
+
+    <app-footer />
+  </div>
+</div>

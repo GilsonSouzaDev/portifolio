@@ -1,0 +1,33 @@
+<section class="hero" id="hero">
+  <div class="hero-text">
+    <span class="intro">
+      Eu sou
+      <app-inline-editor
+        [value]="profile.name"
+        (valueChange)="onFieldChange('name', $event)"
+      />
+    </span>
+    <h1>
+      <app-inline-editor
+        [value]="profile.title"
+        (valueChange)="onFieldChange('title', $event)"
+      />
+    </h1>
+    <div class="hero-social">
+      @if (linkedInLink; as link) {
+        <a [href]="link.url" target="_blank" rel="noopener" class="hero-cta"
+           (click)="onSocialClick($event, link)">
+          LinkedIn →
+        </a>
+      } @else {
+        <span class="hero-cta">LinkedIn →</span>
+      }
+    </div>
+  </div>
+  <div class="hero-avatar">
+    <app-image-uploader
+      [imageUrl]="profile.avatarUrl || ''"
+      (imageUrlChange)="onAvatarChange($event)"
+    />
+  </div>
+</section>

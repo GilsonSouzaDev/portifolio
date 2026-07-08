@@ -1,0 +1,35 @@
+<app-modal [title]="'Nova Habilidade'" (close)="onCancel()">
+  <div class="form-content">
+    <div class="form-group">
+      <label for="skillName">Nome da Habilidade *</label>
+      <input type="text" id="skillName" [(ngModel)]="skillData.name" placeholder="Ex: Angular, Liderança, Azure..." autofocus />
+    </div>
+
+    <div class="form-group">
+      <label for="skillDesc">Descrição</label>
+      <textarea id="skillDesc" [(ngModel)]="skillData.description" placeholder="Breve descrição da sua experiência..." rows="3"></textarea>
+    </div>
+
+    @if (category === 2) {
+      <div class="form-group">
+        <label>Ícone do Badge</label>
+        <app-image-uploader
+          shape="circle"
+          [imageUrl]="skillData.iconUrl || ''"
+          (imageUrlChange)="skillData.iconUrl = $event"
+        />
+      </div>
+    } @else {
+      <div class="form-group">
+        <label for="skillProf">Nível de Proficiência (0 a 100)</label>
+        <input type="range" id="skillProf" [(ngModel)]="skillData.proficiencyLevel" min="0" max="100" />
+        <div class="range-value">{{ skillData.proficiencyLevel }}%</div>
+      </div>
+    }
+
+    <div class="form-actions">
+      <button type="button" class="btn-cancel" (click)="onCancel()">Cancelar</button>
+      <button type="button" class="btn-save" (click)="onSave()">Salvar Habilidade</button>
+    </div>
+  </div>
+</app-modal>
