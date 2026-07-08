@@ -38,7 +38,7 @@ public class ImagesController : ControllerBase
             await file.CopyToAsync(stream);
         }
 
-        var url = $"{Request.Scheme}://{Request.Host}/images/{fileName}";
+        var url = $"/images/{fileName}";
         return Ok(new { url, message = "Upload realizado com sucesso." });
     }
 
@@ -73,7 +73,7 @@ public class ImagesController : ControllerBase
         var filePath = Path.Combine(uploadsFolder, fileName);
         await System.IO.File.WriteAllBytesAsync(filePath, imageBytes);
 
-        var url = $"{Request.Scheme}://{Request.Host}/images/{fileName}";
-        return Ok(new { url, message = "Fundo removido com sucesso." });
+        var url = $"/images/{fileName}";
+        return Ok(new { url, message = "Fundo removido e imagem salva com sucesso." });
     }
 }
