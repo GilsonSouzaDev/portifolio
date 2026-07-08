@@ -18,7 +18,7 @@ export interface Project {
   providedIn: 'root',
 })
 export class ProjectsService {
-  private apiUrl = 'http://localhost:5217/api/projects';
+  private apiUrl = '/api/projects';
 
   constructor(private http: HttpClient) {}
 
