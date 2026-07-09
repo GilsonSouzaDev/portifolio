@@ -1,3 +1,4 @@
+import { environment } from '../../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -22,7 +23,7 @@ export interface Skill {
   providedIn: 'root',
 })
 export class SkillsService {
-  private apiUrl = '/api/skills';
+  private apiUrl = environment.apiUrl + '/skills';
 
   constructor(private http: HttpClient) {}
 
@@ -42,3 +43,5 @@ export class SkillsService {
     return this.http.delete<void>(`${this.apiUrl}/${id}`);
   }
 }
+
+
