@@ -100,6 +100,8 @@ jobs:
     name: Deploy Frontend no GitHub Pages
     runs-on: ubuntu-latest
     if: github.ref == 'refs/heads/main'
+    permissions:
+      contents: write
     steps:
       - name: Checkout do codigo
         uses: actions/checkout@v4
