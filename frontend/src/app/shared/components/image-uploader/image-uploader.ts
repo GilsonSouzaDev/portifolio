@@ -38,7 +38,7 @@ export class ImageUploader {
     const formData = new FormData();
     formData.append('file', file);
 
-    this.http.post<{ url: string }>('http://localhost:5217/api/images/upload', formData).subscribe({
+    this.http.post<{ url: string }>('/api/images/upload', formData).subscribe({
       next: (response) => {
         this.uploading = false;
         this.imageUrl = response.url;
