@@ -1,1 +1,0 @@
-import{Oa as n,eb as t,fb as d,ob as o}from"./chunk-PD4TE7QF.js";var i=class e{static \u0275fac=function(a){return new(a||e)};static \u0275cmp=n({type:e,selectors:[["app-admin-dashboard"]],decls:2,vars:0,template:function(a,m){a&1&&(t(0,"p"),o(1,"admin-dashboard works!"),d())},encapsulation:2})};export{i as AdminDashboard};
