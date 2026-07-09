@@ -1,3 +1,4 @@
+import { environment } from '../../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -15,7 +16,7 @@ export interface Profile {
   providedIn: 'root',
 })
 export class ProfileService {
-  private apiUrl = '/api/profile';
+  private apiUrl = environment.apiUrl + '/profile';
 
   constructor(private http: HttpClient) {}
 
@@ -27,3 +28,5 @@ export class ProfileService {
     return this.http.put<Profile>(this.apiUrl, profile);
   }
 }
+
+

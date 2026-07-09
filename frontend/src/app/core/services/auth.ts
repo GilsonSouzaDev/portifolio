@@ -1,3 +1,4 @@
+import { environment } from '../../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
@@ -6,7 +7,7 @@ import { Observable, tap } from 'rxjs';
   providedIn: 'root',
 })
 export class Auth {
-  private apiUrl = '/api/auth';
+  private apiUrl = environment.apiUrl + '/auth';
   private tokenKey = 'sessionToken';
 
   constructor(private http: HttpClient) {}
@@ -37,3 +38,5 @@ export class Auth {
     localStorage.setItem(this.tokenKey, token);
   }
 }
+
+

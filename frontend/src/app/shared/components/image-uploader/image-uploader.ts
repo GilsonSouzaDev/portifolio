@@ -1,3 +1,4 @@
+import { environment } from '../../../../environments/environment';
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
@@ -38,7 +39,7 @@ export class ImageUploader {
     const formData = new FormData();
     formData.append('file', file);
 
-    this.http.post<{ url: string }>('/api/images/upload', formData).subscribe({
+    this.http.post<{ url: string }>(environment.apiUrl + '/images/upload', formData).subscribe({
       next: (response) => {
         this.uploading = false;
         this.imageUrl = response.url;
@@ -51,3 +52,4 @@ export class ImageUploader {
     });
   }
 }
+
