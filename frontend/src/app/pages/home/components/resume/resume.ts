@@ -4,11 +4,12 @@ import { Skill, SkillCategory } from '../../../../core/services/skills';
 import { InlineEditor } from '../../../../shared/components/inline-editor/inline-editor';
 import { ConfirmDialog } from '../../../../shared/components/confirm-dialog/confirm-dialog';
 import { SkillForm } from '../../../../shared/components/skill-form/skill-form';
+import { ImageUrlPipe } from '../../../../shared/pipes/image-url.pipe';
 
 @Component({
   selector: 'app-resume',
   standalone: true,
-  imports: [CommonModule, InlineEditor, ConfirmDialog, SkillForm],
+  imports: [CommonModule, InlineEditor, ConfirmDialog, SkillForm, ImageUrlPipe],
   templateUrl: './resume.html',
   styleUrl: './resume.scss',
 })

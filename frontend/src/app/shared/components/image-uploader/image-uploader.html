@@ -1,7 +1,7 @@
 <div class="image-uploader" [class.edit-mode]="isEditMode">
   <div class="image-wrapper" [ngClass]="shape">
     @if (imageUrl) {
-      <img [src]="imageUrl" alt="Avatar" class="preview" />
+      <img [src]="imageUrl | imageUrl" alt="Avatar" class="preview" />
     } @else {
       <div class="placeholder"></div>
     }

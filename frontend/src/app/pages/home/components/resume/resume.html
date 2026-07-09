@@ -72,7 +72,7 @@
                   <button class="delete-badge-btn" (click)="requestSkillDelete(badge.id)" title="Deletar badge">&times;</button>
                 }
                 @if (badge.iconUrl) {
-                  <img [src]="badge.iconUrl" [alt]="badge.name" />
+                  <img [src]="badge.iconUrl | imageUrl" [alt]="badge.name" />
                 }
                 <span>
                   <app-inline-editor
