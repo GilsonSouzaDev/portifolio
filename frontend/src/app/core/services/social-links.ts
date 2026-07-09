@@ -1,3 +1,4 @@
+import { environment } from '../../../environments/environment';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -14,7 +15,7 @@ export interface SocialLink {
   providedIn: 'root',
 })
 export class SocialLinksService {
-  private apiUrl = '/api/social-links';
+  private apiUrl = environment.apiUrl + '/social-links';
 
   constructor(private http: HttpClient) {}
 
@@ -26,3 +27,5 @@ export class SocialLinksService {
     return this.http.put<SocialLink>(`${this.apiUrl}/${id}`, link);
   }
 }
+
+
