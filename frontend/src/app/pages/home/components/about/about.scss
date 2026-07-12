@@ -68,6 +68,14 @@
       .label, h3 {
         text-align: center;
       }
+
+      .label {
+        font-size: var(--font-size-lg);
+      }
+
+      h3 {
+        font-size: var(--font-size-3xl);
+      }
     }
 
     .about-image-card {
