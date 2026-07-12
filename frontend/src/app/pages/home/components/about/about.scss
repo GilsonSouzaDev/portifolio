@@ -64,6 +64,10 @@
     .about-text-card {
       background: transparent;
       padding: 0;
+      
+      .label, h3 {
+        text-align: center;
+      }
     }
 
     .about-image-card {
