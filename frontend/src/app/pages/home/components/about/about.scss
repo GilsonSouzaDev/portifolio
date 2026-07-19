@@ -25,7 +25,7 @@
     h3 {
       font-family: var(--font-heading);
       font-weight: 700;
-      font-size: var(--font-size-max);
+      font-size: var(--font-size-2xl);
       margin: 0;
       line-height: 1.25;
       color: var(--color-text);
@@ -67,10 +67,6 @@
       
       .label, h3 {
         text-align: center;
-      }
-
-      h3 {
-        font-size: var(--font-size-2xl);
       }
     }
 
