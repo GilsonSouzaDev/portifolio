@@ -13,8 +13,8 @@ builder.Services.AddSingleton<MailgunEmailService>();
 builder.Services.AddSingleton<IEmailService>(provider => new FallbackEmailService(
     new IEmailService[]
     {
-        provider.GetRequiredService<MailgunEmailService>(),
-        provider.GetRequiredService<GmailEmailService>()
+        provider.GetRequiredService<GmailEmailService>(),
+        provider.GetRequiredService<MailgunEmailService>()
     },
     provider.GetRequiredService<ILogger<FallbackEmailService>>()
 ));
