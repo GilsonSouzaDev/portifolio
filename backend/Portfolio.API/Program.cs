@@ -8,15 +8,13 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseOracle(builder.Configuration.GetConnectionString("OracleDb")));
 
 builder.Services.AddSingleton<GmailEmailService>();
-builder.Services.AddSingleton<SendGridEmailService>();
 builder.Services.AddSingleton<MailgunEmailService>();
 
 builder.Services.AddSingleton<IEmailService>(provider => new FallbackEmailService(
     new IEmailService[]
     {
-        provider.GetRequiredService<GmailEmailService>(),
-        provider.GetRequiredService<SendGridEmailService>(),
-        provider.GetRequiredService<MailgunEmailService>()
+        provider.GetRequiredService<MailgunEmailService>(),
+        provider.GetRequiredService<GmailEmailService>()
     },
     provider.GetRequiredService<ILogger<FallbackEmailService>>()
 ));
