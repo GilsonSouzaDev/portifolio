@@ -31,7 +31,7 @@ export class Resume {
 
   constructor() {}
 
-  onSkillUpdate(skill: Skill, field: keyof Skill, value: string): void {
+  onSkillUpdate(skill: Skill, field: keyof Skill, value: string | number): void {
     const updated = { ...skill, [field]: value };
     this.skillUpdate.emit(updated);
   }

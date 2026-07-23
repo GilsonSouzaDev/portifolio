@@ -434,3 +434,57 @@
     display: none; // Not needed in mobile if it's cards
   }
 }
+.skill-proficiency {
+  margin-top: var(--spacing-sm);
+  
+  .proficiency-editor {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-sm);
+    
+    label {
+      font-size: var(--font-size-sm);
+      color: var(--color-primary);
+      font-weight: 500;
+    }
+    
+    input[type=range] {
+      flex: 1;
+      height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 2px;
+      appearance: none;
+      
+      &::-webkit-slider-thumb {
+        appearance: none;
+        width: 14px;
+        height: 14px;
+        background: var(--color-primary);
+        border-radius: 50%;
+        cursor: pointer;
+      }
+    }
+    
+    .prof-value {
+      font-size: var(--font-size-sm);
+      color: var(--color-text);
+      min-width: 40px;
+      text-align: right;
+    }
+  }
+
+  .prof-bar-container {
+    height: 6px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+    overflow: hidden;
+    margin-top: 4px;
+    
+    .prof-bar-fill {
+      height: 100%;
+      background: var(--color-primary);
+      border-radius: 3px;
+      transition: width 0.5s ease;
+    }
+  }
+}
