@@ -36,9 +36,9 @@ public class SkillsService : ISkillsService
     {
         var skill = new Skill
         {
-            Name = request.Name,
+            Name = request.Name ?? string.Empty,
             Category = request.Category,
-            Description = request.Description,
+            Description = request.Description ?? string.Empty,
             ProficiencyLevel = request.ProficiencyLevel,
             IconUrl = request.IconUrl,
             DisplayOrder = request.DisplayOrder,
@@ -66,9 +66,9 @@ public class SkillsService : ISkillsService
         var skill = await _context.Skills.FindAsync(id);
         if (skill == null) return null;
 
-        skill.Name = request.Name;
+        skill.Name = request.Name ?? string.Empty;
         skill.Category = request.Category;
-        skill.Description = request.Description;
+        skill.Description = request.Description ?? string.Empty;
         skill.ProficiencyLevel = request.ProficiencyLevel;
         skill.IconUrl = request.IconUrl;
         skill.DisplayOrder = request.DisplayOrder;
