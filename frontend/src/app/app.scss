@@ -1,7 +1,6 @@
 .site-header {
-  position: fixed;
+  position: sticky;
   top: 0;
-  left: 0;
   width: 100%;
   background: rgba(17, 17, 17, 0.75);
   backdrop-filter: blur(12px);
@@ -20,10 +19,10 @@
 .site-shell {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  min-height: calc(100vh - var(--header-offset));
   max-width: var(--max-width);
   margin: 0 auto;
-  padding: var(--header-offset) var(--spacing-lg) 0;
+  padding: 0 var(--spacing-lg);
   gap: var(--spacing-lg);
 }
 
@@ -41,6 +40,6 @@
   }
 
   .site-shell {
-    padding: var(--header-offset) var(--spacing-md) 0;
+    padding: 0 var(--spacing-md);
   }
 }
