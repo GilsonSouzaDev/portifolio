@@ -1,6 +1,7 @@
 @use '../../../../../scss/breakpoints' as *;
 
 .about {
+  scroll-margin-top: var(--header-offset);
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--spacing-sm);
@@ -75,3 +76,5 @@
     }
   }
 }
+
+:host { display: block; width: 100%; }

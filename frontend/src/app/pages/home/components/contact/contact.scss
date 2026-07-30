@@ -1,6 +1,7 @@
 @use '../../../../../scss/breakpoints' as *;
 
 .contact {
+  scroll-margin-top: var(--header-offset);
   background: var(--color-bg-card);
   border-radius: var(--border-radius-md);
   padding: 3rem;
@@ -276,3 +277,5 @@
     grid-template-columns: 1fr;
   }
 }
+
+:host { display: block; width: 100%; }

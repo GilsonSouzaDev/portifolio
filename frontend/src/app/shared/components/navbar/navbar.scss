@@ -3,7 +3,7 @@
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 0.75rem var(--spacing-lg);
+  padding: .95rem var(--spacing-lg);
   background: var(--color-bg-secondary);
   border-radius: var(--border-radius-nav);
 }
@@ -18,10 +18,12 @@
 
 .nav-links {
   display: flex;
+  align-items: flex-end;
   gap: var(--spacing-lg);
 
   a {
     color: var(--color-text);
+    text-align: right;
     text-decoration: none;
     font-family: var(--font-body);
     font-weight: 400;
@@ -128,4 +130,9 @@
   .mobile-only {
     display: block;
   }
+}
+
+:host {
+  display: block;
+  width: 100%;
 }

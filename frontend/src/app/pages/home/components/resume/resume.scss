@@ -10,6 +10,7 @@
 }
 
 .resume {
+  scroll-margin-top: var(--header-offset);
   background: var(--color-bg-card);
   border-radius: var(--border-radius-md);
   padding: 3rem;
@@ -487,4 +488,9 @@
       transition: width 0.5s ease;
     }
   }
+}
+
+:host {
+  display: block;
+  width: 100%;
 }
