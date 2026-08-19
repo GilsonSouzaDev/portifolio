@@ -56,7 +56,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("AllowFrontend");
 app.UseStaticFiles();
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection(); // Removido pois o Nginx ja faz o redirecionamento HTTPS
 app.MapControllers();
 
 app.Run();
