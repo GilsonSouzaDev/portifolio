@@ -1,37 +1,34 @@
-using Microsoft.EntityFrameworkCore;
-using Portfolio.API.Data;
 using Portfolio.API.DTOs;
 using Portfolio.API.Models;
+using Portfolio.API.Repositories.Interfaces;
 using Portfolio.API.Services.Interfaces;
 
 namespace Portfolio.API.Services.Implementations;
 
 public class ProjectsService : IProjectsService
 {
-    private readonly AppDbContext _context;
+    private readonly IRepository<Project> _repository;
 
-    public ProjectsService(AppDbContext context)
+    public ProjectsService(IRepository<Project> repository)
     {
-        _context = context;
+        _repository = repository;
     }
 
     public async Task<IEnumerable<ProjectDto>> GetAllProjectsAsync()
     {
-        return await _context.Projects
-            .OrderBy(p => p.DisplayOrder)
-            .Select(p => new ProjectDto
-            {
-                Id = p.Id,
-                Title = p.Title,
-                Description = p.Description,
-                ThumbnailUrl = p.ThumbnailUrl,
-                ProjectUrl = p.ProjectUrl,
-                RepositoryUrl = p.RepositoryUrl,
-                Technologies = p.Technologies,
-                Featured = p.Featured,
-                DisplayOrder = p.DisplayOrder
-            })
-            .ToListAsync();
+        var projects = await _repository.GetAllAsync(null, q => q.OrderBy(p => p.DisplayOrder));
+        return projects.Select(p => new ProjectDto
+        {
+            Id = p.Id,
+            Title = p.Title,
+            Description = p.Description,
+            ThumbnailUrl = p.ThumbnailUrl,
+            ProjectUrl = p.ProjectUrl,
+            RepositoryUrl = p.RepositoryUrl,
+            Technologies = p.Technologies,
+            Featured = p.Featured,
+            DisplayOrder = p.DisplayOrder
+        });
     }
 
     public async Task<ProjectDto> CreateProjectAsync(CreateOrUpdateProjectRequest request)
@@ -50,8 +47,7 @@ public class ProjectsService : IProjectsService
             UpdatedAt = DateTime.UtcNow
         };
 
-        _context.Projects.Add(project);
-        await _context.SaveChangesAsync();
+        await _repository.AddAsync(project);
 
         return new ProjectDto
         {
@@ -69,7 +65,7 @@ public class ProjectsService : IProjectsService
 
     public async Task<ProjectDto?> UpdateProjectAsync(int id, CreateOrUpdateProjectRequest request)
     {
-        var project = await _context.Projects.FindAsync(id);
+        var project = await _repository.GetByIdAsync(id);
         if (project == null) return null;
 
         project.Title = request.Title;
@@ -82,7 +78,7 @@ public class ProjectsService : IProjectsService
         project.DisplayOrder = request.DisplayOrder;
         project.UpdatedAt = DateTime.UtcNow;
 
-        await _context.SaveChangesAsync();
+        await _repository.UpdateAsync(project);
 
         return new ProjectDto
         {
@@ -100,11 +96,10 @@ public class ProjectsService : IProjectsService
 
     public async Task<bool> DeleteProjectAsync(int id)
     {
-        var project = await _context.Projects.FindAsync(id);
+        var project = await _repository.GetByIdAsync(id);
         if (project == null) return false;
 
-        _context.Projects.Remove(project);
-        await _context.SaveChangesAsync();
+        await _repository.DeleteAsync(project);
         return true;
     }
 }

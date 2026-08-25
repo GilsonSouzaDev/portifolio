@@ -1,0 +1,39 @@
+const puppeteer = require('puppeteer');
+const path = require('path');
+
+async function run() {
+    const browser = await puppeteer.launch({ headless: 'new' });
+    const page = await browser.newPage();
+    await page.setViewport({ width: 1920, height: 1080 });
+    
+    const outputDir = 'C:\\Users\\gilso\\OneDrive\\Área de Trabalho\\novo produto';
+    
+    try {
+        console.log('Navigating to Catalogo...');
+        await page.goto('https://gilsonsouzadev.github.io/Livraria-FullStack/catalogo', { waitUntil: 'networkidle0' });
+        await new Promise(r => setTimeout(r, 2000));
+        
+        console.log('Adding item to cart...');
+        // Wait for the button to appear and click it
+        const addToCartBtn = await page.$('.btn-carrinho');
+        if (addToCartBtn) {
+            await addToCartBtn.click();
+            await new Promise(r => setTimeout(r, 1000)); // wait for it to be added
+        } else {
+            console.log('No add to cart button found!');
+        }
+
+        console.log('Navigating to Carrinho...');
+        await page.goto('https://gilsonsouzadev.github.io/Livraria-FullStack/carrinho', { waitUntil: 'networkidle0' });
+        await new Promise(r => setTimeout(r, 1000));
+        await page.screenshot({ path: path.join(outputDir, 'Print-4-Carrinho-Com-Conteudo.jpg'), type: 'jpeg', quality: 90 });
+        console.log('Saved Print-4-Carrinho-Com-Conteudo.jpg');
+
+    } catch (e) {
+        console.error('Error taking screenshots:', e);
+    } finally {
+        await browser.close();
+    }
+}
+
+run();

@@ -1,0 +1,16 @@
+{
+  "name": "portfolio-recorder",
+  "version": "1.0.0",
+  "description": "Automated portfolio video recorder",
+  "main": "record.js",
+  "scripts": {
+    "record": "node record.js"
+  },
+  "dependencies": {
+    "puppeteer": "^24.15.0",
+    "ffmpeg-static": "^5.2.0",
+    "google-tts-api": "^2.0.2",
+    "node-fetch": "^2.7.0",
+    "axios": "^1.6.0"
+  }
+}

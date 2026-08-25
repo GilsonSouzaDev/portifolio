@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Portfolio.API.Data;
+using Microsoft.AspNetCore.Mvc;
 using Portfolio.API.Models;
+using Portfolio.API.Repositories.Interfaces;
 using Portfolio.API.Services.Email;
 
 namespace Portfolio.API.Controllers;
@@ -10,12 +9,12 @@ namespace Portfolio.API.Controllers;
 [Route("api/auth")]
 public class AuthController : ControllerBase
 {
-    private readonly AppDbContext _context;
+    private readonly IRepository<MagicLinkToken> _repository;
     private readonly IEmailService _emailService;
 
-    public AuthController(AppDbContext context, IEmailService emailService)
+    public AuthController(IRepository<MagicLinkToken> repository, IEmailService emailService)
     {
-        _context = context;
+        _repository = repository;
         _emailService = emailService;
     }
 
@@ -30,8 +29,7 @@ public class AuthController : ControllerBase
             IsUsed = false
         };
 
-        _context.MagicLinkTokens.Add(token);
-        await _context.SaveChangesAsync();
+        await _repository.AddAsync(token);
 
         var sent = await _emailService.SendEmailAsync(
             "Seu código de acesso - Portfolio",
@@ -47,15 +45,14 @@ public class AuthController : ControllerBase
     [HttpGet("verify")]
     public async Task<IActionResult> Verify([FromQuery] string token)
     {
-        var magicToken = await _context.MagicLinkTokens
-            .Where(t => t.Token == token && !t.IsUsed && t.ExpiresAt > DateTime.UtcNow)
-            .FirstOrDefaultAsync();
+        var magicToken = await _repository.FirstOrDefaultAsync(
+            t => t.Token == token && !t.IsUsed && t.ExpiresAt > DateTime.UtcNow);
 
         if (magicToken == null)
             return Unauthorized(new { message = "Código inválido ou expirado." });
 
         magicToken.IsUsed = true;
-        await _context.SaveChangesAsync();
+        await _repository.UpdateAsync(magicToken);
 
         var sessionToken = Guid.NewGuid().ToString("N");
         return Ok(new { sessionToken, message = "Autenticado com sucesso." });
@@ -66,6 +63,4 @@ public class AuthController : ControllerBase
     {
         return Ok(new { message = "Logout realizado com sucesso." });
     }
-
-
 }

@@ -19,6 +19,9 @@ builder.Services.AddSingleton<IEmailService>(provider => new FallbackEmailServic
     provider.GetRequiredService<ILogger<FallbackEmailService>>()
 ));
 
+// Registrando Repositório Genérico
+builder.Services.AddScoped(typeof(Portfolio.API.Repositories.Interfaces.IRepository<>), typeof(Portfolio.API.Repositories.Implementations.Repository<>));
+
 // Registrando as Camadas de Serviço (Clean Architecture / N-Tier)
 builder.Services.AddScoped<Portfolio.API.Services.Interfaces.IProfileService, Portfolio.API.Services.Implementations.ProfileService>();
 builder.Services.AddScoped<Portfolio.API.Services.Interfaces.ISkillsService, Portfolio.API.Services.Implementations.SkillsService>();

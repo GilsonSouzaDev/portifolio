@@ -1,22 +1,22 @@
-using Microsoft.EntityFrameworkCore;
-using Portfolio.API.Data;
 using Portfolio.API.DTOs;
+using Portfolio.API.Models;
+using Portfolio.API.Repositories.Interfaces;
 using Portfolio.API.Services.Interfaces;
 
 namespace Portfolio.API.Services.Implementations;
 
 public class ProfileService : IProfileService
 {
-    private readonly AppDbContext _context;
+    private readonly IRepository<Profile> _repository;
 
-    public ProfileService(AppDbContext context)
+    public ProfileService(IRepository<Profile> repository)
     {
-        _context = context;
+        _repository = repository;
     }
 
     public async Task<ProfileDto?> GetProfileAsync()
     {
-        var profile = await _context.Profiles.FirstOrDefaultAsync();
+        var profile = await _repository.FirstOrDefaultAsync();
         if (profile == null) return null;
 
         return new ProfileDto
@@ -32,7 +32,7 @@ public class ProfileService : IProfileService
 
     public async Task<ProfileDto?> UpdateProfileAsync(UpdateProfileRequest request)
     {
-        var profile = await _context.Profiles.FirstOrDefaultAsync();
+        var profile = await _repository.FirstOrDefaultAsync();
         if (profile == null) return null;
 
         profile.Name = request.Name;
@@ -42,7 +42,7 @@ public class ProfileService : IProfileService
         profile.ResumeUrl = request.ResumeUrl;
         profile.UpdatedAt = DateTime.UtcNow;
 
-        await _context.SaveChangesAsync();
+        await _repository.UpdateAsync(profile);
 
         return new ProfileDto
         {

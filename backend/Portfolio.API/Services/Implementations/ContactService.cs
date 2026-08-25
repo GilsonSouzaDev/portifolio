@@ -1,20 +1,20 @@
 using Microsoft.EntityFrameworkCore;
-using Portfolio.API.Data;
 using Portfolio.API.DTOs;
 using Portfolio.API.Models;
 using Portfolio.API.Services.Email;
 using Portfolio.API.Services.Interfaces;
+using Portfolio.API.Repositories.Interfaces;
 
 namespace Portfolio.API.Services.Implementations;
 
 public class ContactService : IContactService
 {
-    private readonly AppDbContext _context;
+    private readonly IRepository<ContactMessage> _repository;
     private readonly IEmailService _emailService;
 
-    public ContactService(AppDbContext context, IEmailService emailService)
+    public ContactService(IRepository<ContactMessage> repository, IEmailService emailService)
     {
-        _context = context;
+        _repository = repository;
         _emailService = emailService;
     }
 
@@ -30,8 +30,7 @@ public class ContactService : IContactService
             IsRead = false
         };
 
-        _context.ContactMessages.Add(message);
-        await _context.SaveChangesAsync();
+        await _repository.AddAsync(message);
 
         // Construir o corpo do e-mail
         var body = $"Você recebeu uma nova mensagem de contato do seu Portfólio!\n\n" +
@@ -48,18 +47,16 @@ public class ContactService : IContactService
 
     public async Task<IEnumerable<ContactMessageDto>> GetMessagesAsync()
     {
-        return await _context.ContactMessages
-            .OrderByDescending(m => m.CreatedAt)
-            .Select(m => new ContactMessageDto
-            {
-                Id = m.Id,
-                Name = m.Name,
-                Email = m.Email,
-                Subject = m.Subject,
-                Message = m.Message,
-                IsRead = m.IsRead,
-                CreatedAt = m.CreatedAt
-            })
-            .ToListAsync();
+        var messages = await _repository.GetAllAsync(null, q => q.OrderByDescending(m => m.CreatedAt));
+        return messages.Select(m => new ContactMessageDto
+        {
+            Id = m.Id,
+            Name = m.Name,
+            Email = m.Email,
+            Subject = m.Subject,
+            Message = m.Message,
+            IsRead = m.IsRead,
+            CreatedAt = m.CreatedAt
+        });
     }
 }

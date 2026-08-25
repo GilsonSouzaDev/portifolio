@@ -1,35 +1,32 @@
-using Microsoft.EntityFrameworkCore;
-using Portfolio.API.Data;
 using Portfolio.API.DTOs;
 using Portfolio.API.Models;
+using Portfolio.API.Repositories.Interfaces;
 using Portfolio.API.Services.Interfaces;
 
 namespace Portfolio.API.Services.Implementations;
 
 public class SkillsService : ISkillsService
 {
-    private readonly AppDbContext _context;
+    private readonly IRepository<Skill> _repository;
 
-    public SkillsService(AppDbContext context)
+    public SkillsService(IRepository<Skill> repository)
     {
-        _context = context;
+        _repository = repository;
     }
 
     public async Task<IEnumerable<SkillDto>> GetAllSkillsAsync()
     {
-        return await _context.Skills
-            .OrderBy(s => s.DisplayOrder)
-            .Select(s => new SkillDto
-            {
-                Id = s.Id,
-                Name = s.Name,
-                Category = s.Category,
-                Description = s.Description,
-                ProficiencyLevel = s.ProficiencyLevel,
-                IconUrl = s.IconUrl,
-                DisplayOrder = s.DisplayOrder
-            })
-            .ToListAsync();
+        var skills = await _repository.GetAllAsync(null, q => q.OrderBy(s => s.DisplayOrder));
+        return skills.Select(s => new SkillDto
+        {
+            Id = s.Id,
+            Name = s.Name,
+            Category = s.Category,
+            Description = s.Description,
+            ProficiencyLevel = s.ProficiencyLevel,
+            IconUrl = s.IconUrl,
+            DisplayOrder = s.DisplayOrder
+        });
     }
 
     public async Task<SkillDto> CreateSkillAsync(CreateOrUpdateSkillRequest request)
@@ -46,8 +43,7 @@ public class SkillsService : ISkillsService
             UpdatedAt = DateTime.UtcNow
         };
 
-        _context.Skills.Add(skill);
-        await _context.SaveChangesAsync();
+        await _repository.AddAsync(skill);
 
         return new SkillDto
         {
@@ -63,7 +59,7 @@ public class SkillsService : ISkillsService
 
     public async Task<SkillDto?> UpdateSkillAsync(int id, CreateOrUpdateSkillRequest request)
     {
-        var skill = await _context.Skills.FindAsync(id);
+        var skill = await _repository.GetByIdAsync(id);
         if (skill == null) return null;
 
         skill.Name = request.Name ?? string.Empty;
@@ -74,7 +70,7 @@ public class SkillsService : ISkillsService
         skill.DisplayOrder = request.DisplayOrder;
         skill.UpdatedAt = DateTime.UtcNow;
 
-        await _context.SaveChangesAsync();
+        await _repository.UpdateAsync(skill);
 
         return new SkillDto
         {
@@ -90,11 +86,10 @@ public class SkillsService : ISkillsService
 
     public async Task<bool> DeleteSkillAsync(int id)
     {
-        var skill = await _context.Skills.FindAsync(id);
+        var skill = await _repository.GetByIdAsync(id);
         if (skill == null) return false;
 
-        _context.Skills.Remove(skill);
-        await _context.SaveChangesAsync();
+        await _repository.DeleteAsync(skill);
         return true;
     }
 }
