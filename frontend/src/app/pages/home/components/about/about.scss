@@ -1,6 +1,7 @@
 @use '../../../../../scss/breakpoints' as *;
 
 .about {
+  scroll-margin-top: var(--header-offset);
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: var(--spacing-sm);
@@ -25,7 +26,7 @@
     h3 {
       font-family: var(--font-heading);
       font-weight: 700;
-      font-size: var(--font-size-max);
+      font-size: var(--font-size-hero);
       margin: 0;
       line-height: 1.25;
       color: var(--color-text);
@@ -38,6 +39,7 @@
       line-height: 1.6;
       font-size: var(--font-size-sm);
       margin: 0;
+      text-align: justify;
     }
   }
 
@@ -63,6 +65,10 @@
     .about-text-card {
       background: transparent;
       padding: 0;
+      
+      .label, h3 {
+        text-align: center;
+      }
     }
 
     .about-image-card {
@@ -70,3 +76,5 @@
     }
   }
 }
+
+:host { display: block; width: 100%; }

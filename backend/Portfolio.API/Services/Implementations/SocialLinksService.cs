@@ -1,33 +1,30 @@
-using Microsoft.EntityFrameworkCore;
-using Portfolio.API.Data;
 using Portfolio.API.DTOs;
 using Portfolio.API.Models;
+using Portfolio.API.Repositories.Interfaces;
 using Portfolio.API.Services.Interfaces;
 
 namespace Portfolio.API.Services.Implementations;
 
 public class SocialLinksService : ISocialLinksService
 {
-    private readonly AppDbContext _context;
+    private readonly IRepository<SocialLink> _repository;
 
-    public SocialLinksService(AppDbContext context)
+    public SocialLinksService(IRepository<SocialLink> repository)
     {
-        _context = context;
+        _repository = repository;
     }
 
     public async Task<IEnumerable<SocialLinkDto>> GetAllSocialLinksAsync()
     {
-        return await _context.SocialLinks
-            .OrderBy(sl => sl.DisplayOrder)
-            .Select(sl => new SocialLinkDto
-            {
-                Id = sl.Id,
-                Platform = sl.Platform,
-                Url = sl.Url,
-                IconUrl = sl.IconUrl,
-                DisplayOrder = sl.DisplayOrder
-            })
-            .ToListAsync();
+        var links = await _repository.GetAllAsync(null, q => q.OrderBy(sl => sl.DisplayOrder));
+        return links.Select(sl => new SocialLinkDto
+        {
+            Id = sl.Id,
+            Platform = sl.Platform,
+            Url = sl.Url,
+            IconUrl = sl.IconUrl,
+            DisplayOrder = sl.DisplayOrder
+        });
     }
 
     public async Task<SocialLinkDto> CreateSocialLinkAsync(CreateOrUpdateSocialLinkRequest request)
@@ -42,8 +39,7 @@ public class SocialLinksService : ISocialLinksService
             UpdatedAt = DateTime.UtcNow
         };
 
-        _context.SocialLinks.Add(socialLink);
-        await _context.SaveChangesAsync();
+        await _repository.AddAsync(socialLink);
 
         return new SocialLinkDto
         {
@@ -57,7 +53,7 @@ public class SocialLinksService : ISocialLinksService
 
     public async Task<SocialLinkDto?> UpdateSocialLinkAsync(int id, CreateOrUpdateSocialLinkRequest request)
     {
-        var socialLink = await _context.SocialLinks.FindAsync(id);
+        var socialLink = await _repository.GetByIdAsync(id);
         if (socialLink == null) return null;
 
         socialLink.Platform = request.Platform;
@@ -66,7 +62,7 @@ public class SocialLinksService : ISocialLinksService
         socialLink.DisplayOrder = request.DisplayOrder;
         socialLink.UpdatedAt = DateTime.UtcNow;
 
-        await _context.SaveChangesAsync();
+        await _repository.UpdateAsync(socialLink);
 
         return new SocialLinkDto
         {
@@ -80,11 +76,10 @@ public class SocialLinksService : ISocialLinksService
 
     public async Task<bool> DeleteSocialLinkAsync(int id)
     {
-        var socialLink = await _context.SocialLinks.FindAsync(id);
+        var socialLink = await _repository.GetByIdAsync(id);
         if (socialLink == null) return false;
 
-        _context.SocialLinks.Remove(socialLink);
-        await _context.SaveChangesAsync();
+        await _repository.DeleteAsync(socialLink);
         return true;
     }
 }

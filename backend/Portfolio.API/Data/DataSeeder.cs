@@ -15,7 +15,7 @@ public static class DataSeeder
             {
                 Name = "Gilson C. Souza",
                 Title = "Full Stack Developer",
-                Bio = "Desenvolvedor Full Stack apaixonado por tecnologia.",
+                Bio = "Sou Gilson C. Souza, um profissional em transição de carreira para a área de tecnologia, formado em Análise e Desenvolvimento de Sistemas pela Fatec Mogi das Cruzes. Estou em busca de uma oportunidade em desenvolvimento de software e, para isso, dedico-me ao estudo de diversas vertentes da área, como frontend, backend, banco de dados e cloud computing.",
                 ResumeUrl = "assets/docs/Gilson_Souza_Curriculo.pdf"
             });
         }

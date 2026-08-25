@@ -8,18 +8,19 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseOracle(builder.Configuration.GetConnectionString("OracleDb")));
 
 builder.Services.AddSingleton<GmailEmailService>();
-builder.Services.AddSingleton<SendGridEmailService>();
 builder.Services.AddSingleton<MailgunEmailService>();
 
 builder.Services.AddSingleton<IEmailService>(provider => new FallbackEmailService(
     new IEmailService[]
     {
         provider.GetRequiredService<GmailEmailService>(),
-        provider.GetRequiredService<SendGridEmailService>(),
         provider.GetRequiredService<MailgunEmailService>()
     },
     provider.GetRequiredService<ILogger<FallbackEmailService>>()
 ));
+
+// Registrando Repositório Genérico
+builder.Services.AddScoped(typeof(Portfolio.API.Repositories.Interfaces.IRepository<>), typeof(Portfolio.API.Repositories.Implementations.Repository<>));
 
 // Registrando as Camadas de Serviço (Clean Architecture / N-Tier)
 builder.Services.AddScoped<Portfolio.API.Services.Interfaces.IProfileService, Portfolio.API.Services.Implementations.ProfileService>();
@@ -58,7 +59,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseCors("AllowFrontend");
 app.UseStaticFiles();
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection(); // Removido pois o Nginx ja faz o redirecionamento HTTPS
 app.MapControllers();
 
 app.Run();

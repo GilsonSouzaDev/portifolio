@@ -17,31 +17,10 @@ services:
       - /opt/oracle-wallet:/app/oracle-wallet:ro
       - ./wwwroot:/app/wwwroot
     networks:
-      - portfolio-net
+      - web-network
     expose:
       - "8080"
 
-  # -------------------------------------------------------
-  # Reverse Proxy: Nginx (Apenas API)
-  # -------------------------------------------------------
-  nginx:
-    image: nginx:latest
-    container_name: portfolio-nginx
-    restart: unless-stopped
-    ports:
-      - "80:80"
-      - "443:443"
-    depends_on:
-      - backend
-    volumes:
-      # Configuração do Nginx
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
-      # Certificados SSL do Let's Encrypt (gerados pelo Certbot na VM)
-      - /etc/letsencrypt:/etc/letsencrypt:ro
-      - /var/www/certbot:/var/www/certbot:ro
-    networks:
-      - portfolio-net
-
 networks:
-  portfolio-net:
-    driver: bridge
+  web-network:
+    external: true

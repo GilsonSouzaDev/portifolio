@@ -33,6 +33,19 @@
                         (valueChange)="onSkillUpdate(skill, 'description', $event)"
                       />
                     </p>
+                    <div class="skill-proficiency">
+                      @if (isEditMode) {
+                        <div class="proficiency-editor">
+                          <label>Proficiência:</label>
+                          <input type="range" min="0" max="100" [value]="skill.proficiencyLevel" (change)="onSkillUpdate(skill, 'proficiencyLevel', +$any($event.target).value)" />
+                          <span class="prof-value">{{ skill.proficiencyLevel }}%</span>
+                        </div>
+                      } @else {
+                        <div class="prof-bar-container">
+                          <div class="prof-bar-fill" [style.width.%]="skill.proficiencyLevel"></div>
+                        </div>
+                      }
+                    </div>
                   </div>
                 </div>
               }
@@ -72,7 +85,7 @@
                   <button class="delete-badge-btn" (click)="requestSkillDelete(badge.id)" title="Deletar badge">&times;</button>
                 }
                 @if (badge.iconUrl) {
-                  <img [src]="badge.iconUrl" [alt]="badge.name" />
+                  <img [src]="badge.iconUrl | imageUrl" [alt]="badge.name" />
                 }
                 <span>
                   <app-inline-editor
@@ -110,7 +123,7 @@
 @if (skillToDelete !== null) {
   <app-confirm-dialog
     title="Excluir Habilidade"
-    message="Tem certeza que deseja excluir esta habilidade definitivamente?"
+    message="Tem certeza de que deseja excluir esta habilidade definitivamente?"
     confirmText="Excluir"
     cancelText="Cancelar"
     (confirm)="confirmSkillDelete()"

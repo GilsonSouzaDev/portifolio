@@ -1,0 +1,8 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 150">
+  <style>
+    .fatec { font-family: Arial, sans-serif; font-weight: bold; font-size: 85px; fill: #5c6c74; letter-spacing: -2px; }
+    .mogi { font-family: Arial, sans-serif; font-weight: bold; font-size: 32px; fill: #b21f24; }
+  </style>
+  <text x="10" y="90" class="fatec">Fatec</text>
+  <text x="65" y="130" class="mogi">Mogi das Cruzes</text>
+</svg>

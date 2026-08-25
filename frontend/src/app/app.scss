@@ -1,7 +1,6 @@
 .site-header {
-  position: fixed;
+  position: sticky;
   top: 0;
-  left: 0;
   width: 100%;
   background: rgba(17, 17, 17, 0.75);
   backdrop-filter: blur(12px);
@@ -22,7 +21,7 @@
   flex-direction: column;
   min-height: 100vh;
   max-width: var(--max-width);
-  margin: 0 auto;
+  margin: calc(var(--header-offset) * -1) auto 0;
   padding: var(--header-offset) var(--spacing-lg) 0;
   gap: var(--spacing-lg);
 }
