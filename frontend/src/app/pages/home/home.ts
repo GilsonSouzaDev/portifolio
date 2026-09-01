@@ -6,6 +6,7 @@ import { Project, ProjectsService } from '../../core/services/projects';
 import { SocialLink, SocialLinksService } from '../../core/services/social-links';
 import { ContactService, ContactMessageDto } from '../../core/services/contact';
 import { EditMode } from '../../core/services/edit-mode';
+import { RefreshService } from '../../core/services/refresh';
 
 import { Hero } from './components/hero/hero';
 import { About } from './components/about/about';
@@ -53,6 +54,7 @@ export class Home implements OnInit {
     private socialLinksService: SocialLinksService,
     private contactService: ContactService,
     private editMode: EditMode,
+    private refreshService: RefreshService,
   ) {}
 
   get isEditMode(): boolean {
@@ -60,6 +62,15 @@ export class Home implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadData();
+    
+    // Assinar os eventos de refresh
+    this.refreshService.refreshTriggered.subscribe(() => {
+      this.loadData();
+    });
+  }
+
+  loadData(): void {
     this.profileService.get().subscribe((data) => this.profile.set(data));
     this.skillsService.getAll().subscribe((data) => this.skills.set(data));
     this.projectsService.getAll().subscribe((data) => this.projects.set(data));

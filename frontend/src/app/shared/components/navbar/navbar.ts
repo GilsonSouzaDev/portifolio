@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RefreshService } from '../../../core/services/refresh';
 
 @Component({
   selector: 'app-navbar',
@@ -19,11 +20,18 @@ export class Navbar {
     { label: 'Contato', href: '#contato' },
   ];
 
+  constructor(private refreshService: RefreshService) {}
+
   toggleMenu(): void {
     this.menuOpen.update((value) => !value);
   }
 
   closeMenu(): void {
     this.menuOpen.set(false);
+  }
+
+  onNavClick(): void {
+    this.refreshService.triggerRefresh();
+    this.closeMenu();
   }
 }
