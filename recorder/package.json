@@ -7,10 +7,15 @@
     "record": "node record.js"
   },
   "dependencies": {
-    "puppeteer": "^24.15.0",
+    "axios": "^1.6.0",
     "ffmpeg-static": "^5.2.0",
     "google-tts-api": "^2.0.2",
     "node-fetch": "^2.7.0",
-    "axios": "^1.6.0"
-  }
+    "pdf-parse": "^2.4.5",
+    "puppeteer": "^24.43.1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
 }
